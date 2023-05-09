@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+<data>
+    <record id="view_vr_mails_fetch_wiz_form" model="ir.ui.view">
+        <field name="name">Fetch VR Mails Wiz Form</field>
+        <field name="model">vr.mails.fetch.wiz</field>
+        <field name="arch" type="xml">
+            <form string="Fetch VR Mails">
+                <sheet>
+                    <group>
+                        <field name="name" string="Email"/>
+                    </group>
+                </sheet>
+
+                <footer>
+                    <button name="fetch_mail" string="Fetch Now" type="object" class='oe_highlight'/>
+                    <button name="cancel" string="Cancel" class="oe_link" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_vr_mails_fetch_wiz" model="ir.actions.act_window">
+        <field name="name">Fetch VR Mails</field>
+        <field name="res_model">vr.mails.fetch.wiz</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="view_vr_mails_fetch_wiz_form"/>
+        <field name="target">new</field>
+    </record>
+
+    <menuitem name="Fetch VR Mails"
+            id="vr_mails_fetch_wiz_menu"
+            parent="virsat_vr_mails_menu_root"
+            sequence="20"
+            action="action_vr_mails_fetch_wiz"
+        />
+</data>
+</odoo>

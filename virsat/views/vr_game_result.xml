@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <record id="view_vr_game_result_tree_view" model="ir.ui.view">
+            <field name="name">vr.game.result.tree.view</field>
+            <field name="model">vr.game.result</field>
+            <field name="arch" type="xml">
+                <tree string="Game Result">
+                    <field name="name"/>
+                    <field name="device_id"/>
+                    <field name="vr_game_id"/>
+                    <field name="violation"/>
+                    <field name="session_start"/>
+                    <field name="session_end"/>
+                    <field name="reaction_time"/>
+                    <field name="selection"/>
+                    <field name="result"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_vr_game_result_form_view" model="ir.ui.view">
+            <field name="name">vr.game.result.form.view</field>
+            <field name="model">vr.game.result</field>
+            <field name="arch" type="xml">
+                <form string="Website Event Menu">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="vr_trainee_id"/>
+                                <field name="company_code"/>
+                                <field name="company_id"/>
+                                <field name="game_code"/>
+                                <field name="vr_game_id"/>
+                                <field name="device_id"/>
+                                <field name="experience"/>
+                                <field name="violation"/>
+                                <field name="session_start"/>
+                                <field name="session_end"/>
+                            </group>
+                            <group>
+                                <field name="reaction_time" widget="datetime"/>
+                                <field name="selection"/>
+                                <field name="name"/>
+                                <field name="device_id"/>
+                                <field name="violation"/>
+                                <field name="session_start"/>
+                                <field name="session_end"/>
+                                <field name="session_end"/>
+                                <field name="reaction_time"/>
+                                <field name="view_time"/>
+                                <field name="selection"/>
+                                <field name="result"/>
+                                <field name="score"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_vr_game_result_graph_view" model="ir.ui.view">
+            <field name="name">vr.game.result.graph.view</field>
+            <field name="model">vr.game.result</field>
+            <field name="arch" type="xml">
+                <graph string="Game Result">
+                    <field name="name"/>
+                    <field name="score" type="measure"/>
+                </graph>
+            </field>
+        </record>
+
+        <record id="view_vr_game_result_pivot_view" model="ir.ui.view">
+            <field name="name">vr.game.result.pivot.view</field>
+            <field name="model">vr.game.result</field>
+            <field name="arch" type="xml">
+                <pivot string="Game Result">
+                    <field name="name" type="col"/>
+                     <field name="score" type="measure"/>
+                </pivot>
+            </field>
+        </record>
+
+        <record id="action_vr_game_result" model="ir.actions.act_window">
+            <field name="name">VR Game Result</field>
+            <field name="res_model">vr.game.result</field>
+            <field name="view_mode">tree,form,graph,pivot</field>
+        </record>
+
+        <!-- Main top menu elements -->
+        <menuitem name="Game Result"
+            id="vr_game_result_menu"
+            parent="virsat_menu_root"
+            sequence="30"
+            action="action_vr_game_result"
+        />
+
+    </data>
+</odoo>

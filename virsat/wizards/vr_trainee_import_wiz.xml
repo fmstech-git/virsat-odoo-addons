@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+<data>
+    <record id="view_vr_trainee_import_wiz_form" model="ir.ui.view">
+        <field name="name">VR Trainee Import Wiz Form</field>
+        <field name="model">vr.trainee.import.wiz</field>
+        <field name="arch" type="xml">
+            <form string="Import Trainees">
+                <sheet>
+                    <group>
+                        <field name="file"/>
+                        <field name="company_id" groups="base.group_multi_company"/>
+                    </group>
+                </sheet>
+
+                <footer>
+                    <button name="import_trainee" string="Import" type="object" class='oe_highlight'/>
+                    <button name="cancel" string="Cancel" class="oe_link" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_vr_trainee_import_wiz" model="ir.actions.act_window">
+        <field name="name">Import Trainees</field>
+        <field name="res_model">vr.trainee.import.wiz</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="view_vr_trainee_import_wiz_form"/>
+        <field name="target">new</field>
+    </record>
+
+    <menuitem name="Import Trainees"
+            id="vr_trainee_import_wiz_menu"
+            parent="vr_trainee_root_menu"
+            sequence="20"
+            action="action_vr_trainee_import_wiz"
+        />
+</data>
+</odoo>

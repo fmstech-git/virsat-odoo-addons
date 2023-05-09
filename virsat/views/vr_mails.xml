@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <record id="view_virsat_vr_mails_form" model="ir.ui.view">
+            <field name="name">virsat.vr.mails.form</field>
+            <field name="model">virsat.vr.mails</field>
+            <field name="arch" type="xml">
+                <form string="VR Mails">
+                    <header>
+                        <button name="view_game_result" type="object" class="oe_highlight" string="View Game Result"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <field name="name" string="Subject"/>
+                            <field name="message_main_attachment_id" options="{'no_create_edit': True, 'no_open': True}" readonly="1"/>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_virsat_vr_mails" model="ir.actions.act_window">
+            <field name="name">VR Mails</field>
+            <field name="res_model">virsat.vr.mails</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem name="VIRSAT"
+        id="virsat_menu_root"
+        web_icon="virsat,static/description/icon.png"
+        sequence="1"/>
+
+        <!-- Main top menu elements -->
+        <menuitem name="VR Mails"
+            id="virsat_vr_mails_menu_root"
+            parent="virsat_menu_root"
+            sequence="10"
+        />
+
+        <menuitem name="VR Mails"
+            id="virsat_vr_mails_menu"
+            parent="virsat_vr_mails_menu_root"
+            sequence="10"
+            action="action_virsat_vr_mails"
+        />
+
+        <!--Dev IR Attachment-->
+        <!--<record id="dev_ir_attachment_form_inherit" model="ir.ui.view">
+            <field name="name">DEV IR Attachment Form Inherit</field>
+            <field name="model">ir.attachment</field>
+            <field name="inherit_id" ref="base.view_attachment_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//form/sheet" position="before">
+                    <header>
+                        <button name="vr_dev" type="object" string="VR Dev"/>
+                    </header>
+                </xpath>
+            </field>
+        </record>-->
+
+    </data>
+</odoo>

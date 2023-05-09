@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+<data>
+    <record id="view_vr_games_form" model="ir.ui.view">
+        <field name="name">vr.games.form</field>
+        <field name="model">vr.games</field>
+        <field name="arch" type="xml">
+            <form string="VR Games">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="code"/>
+                        <field name="description"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_vr_games" model="ir.actions.act_window">
+        <field name="name">VR Games</field>
+        <field name="res_model">vr.games</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem name="VR Games"
+        id="vr_games_menu"
+        parent="vr_config_menu"
+        sequence="20"
+        action="action_vr_games"
+    />
+</data>
+</odoo>

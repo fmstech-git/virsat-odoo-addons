@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <record id="view_vr_trainee_form" model="ir.ui.view">
+            <field name="name">vr.trainee.form</field>
+            <field name="model">vr.trainee</field>
+            <field name="arch" type="xml">
+                <form string="Trainee">
+                    <header>
+                        <button name="view_game_result" type="object" string="View Game Result" class="oe_highlight"/>
+                    </header>
+                    <sheet>
+                        <group col="4">
+                            <field name="pin" readonly="1"/>
+                            <field name="name" groups="virsat.group_view_vr_trainee_name"/>
+                            <field name="company_id" options="{'no_create_edit': True, 'no_open': True}" groups="base.group_multi_company"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_vr_trainee_tree" model="ir.ui.view">
+            <field name="name">vr.trainee.tree</field>
+            <field name="model">vr.trainee</field>
+            <field name="arch" type="xml">
+                <tree string="Trainee" import="false">
+                    <field name="pin"/>
+                    <field name="name" groups="virsat.group_view_vr_trainee_name"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_vr_trainee" model="ir.actions.act_window">
+            <field name="name">Trainee</field>
+            <field name="res_model">vr.trainee</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem name="Trainee"
+            id="vr_trainee_root_menu"
+            parent="virsat_menu_root"
+            sequence="20"
+        />
+
+        <menuitem name="Trainee"
+            id="vr_trainee_sub_menu"
+            parent="vr_trainee_root_menu"
+            sequence="10"
+            action="action_vr_trainee"
+        />
+
+        <menuitem name="Configuration"
+            id="vr_config_menu"
+            parent="virsat_menu_root"
+            sequence="100"
+            groups="virsat.group_vr_manager"
+        />
+
+        <record id="action_vr_reserved_pin" model="ir.actions.act_window">
+            <field name="name">VR Reserved PIN</field>
+            <field name="res_model">vr.reserved.pin</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem name="Reserved PIN"
+            id="vr_reserved_pin_menu"
+            parent="vr_config_menu"
+            sequence="10"
+            action="action_vr_reserved_pin"
+        />
+
+    </data>
+</odoo>
