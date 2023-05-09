@@ -19,6 +19,10 @@ class VrTraineeImportWizard(models.TransientModel):
             raise ValidationError("Please make sure to setup Incoming Mail Server.")
 
         mail.fetch_mail()
-        action = self.env.ref('virsat.action_virsat_vr_mails').read()[0]
-
-        return action
+        
+        return {
+            'name': 'VR Mails',
+            'type': 'ir.actions.act_window',
+            'res_model': 'virsat.vr.mails',
+            'view_mode': 'tree,form',
+        }
