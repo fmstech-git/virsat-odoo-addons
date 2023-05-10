@@ -8,9 +8,9 @@
         <field name="arch" type="xml">
             <xpath expr="//notebook/page[1]" position="after">
                 <page string="Other Information">
-                    <group string="Sequence">
-                        <field name="vr_trainee_seq_size"/>
-                        <field name="vr_trainee_seq_max_size"/>
+                    <group string="Setup">
+                        <field name="vr_trainee_pin_size"/>
+                        <field name="vr_trainee_pin_max_size"/>
                     </group>
                     <group>
                         <field name="company_code"/>

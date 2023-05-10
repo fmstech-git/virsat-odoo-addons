@@ -25,7 +25,7 @@ class VrTrainee(models.Model):
     def create(self, vals):
         """Inherit to get a unique pin number"""
 
-        seq_max_size = self.env.company.vr_trainee_seq_max_size
+        seq_max_size = self.env.company.vr_trainee_pin_max_size
         company_pin_records = len(self.search([('company_id', '=', self.env.company.id)]))
         reserved_pin_obj = self.env['vr.reserved.pin']
         reserved_pins = reserved_pin_obj.search([('company_id', '=', self.env.company.id)]) or []
@@ -34,7 +34,7 @@ class VrTrainee(models.Model):
         if company_pin_records >= total_seq_max_size:
             raise ValidationError("Sorry! Maximum PIN size exceeded. Please contact administrator.")
 
-        seq_size = self.env.company.vr_trainee_seq_size
+        seq_size = self.env.company.vr_trainee_pin_size
         pin = self.generate_pin(seq_size)
         exist = self.search([('pin', '=', pin), ('company_id', '=', self.env.company.id)]) or (reserved_pins and reserved_pins.filtered(lambda x: x.pin == pin))
 
