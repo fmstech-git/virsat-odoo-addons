@@ -57,6 +57,17 @@
             groups="virsat.group_vr_manager"
         />
 
+        <record id="view_vr_reserved_pin_tree" model="ir.ui.view">
+            <field name="name">view.vr.reserved.pin.tree</field>
+            <field name="model">vr.reserved.pin</field>
+            <field name="arch" type="xml">
+                <tree string="Reserved PIN" import="false">
+                    <field name="pin"/>
+                    <field name="company_id" groups="base.group_multi_company"/>
+                </tree>
+            </field>
+        </record>
+
         <record id="action_vr_reserved_pin" model="ir.actions.act_window">
             <field name="name">VR Reserved PIN</field>
             <field name="res_model">vr.reserved.pin</field>

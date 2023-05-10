@@ -26,5 +26,21 @@
     <record id="group_view_vr_trainee_name" model="res.groups">
         <field name="name">View VR Trainee Name</field>
     </record>
+
+    <record id="module_category_vr_trainee" model="ir.module.category">
+        <field name="name">VR Trainee</field>
+        <field name="sequence">55</field>
+    </record>
+
+    <record id="group_vr_trainee_user" model="res.groups">
+        <field name="name">User</field>
+        <field name="category_id" ref="module_category_vr_trainee"/>
+    </record>
+
+    <record id="group_vr_trainee_manager" model="res.groups">
+        <field name="name">Manager</field>
+        <field name="implied_ids" eval="[(4, ref('group_vr_trainee_user'))]"/>
+        <field name="category_id" ref="module_category_vr_trainee"/>
+    </record>
 </data>
 </odoo>

@@ -2,5 +2,6 @@
 <odoo>
 <data>
     <menuitem id="base.menu_management" name="Apps" sequence="500" web_icon="base,static/description/modules.png" groups="base.group_system"/>
+    <menuitem id="vr_config_company_menu" name="Company" sequence="30" groups="virsat.group_vr_manager" parent="virsat.vr_config_menu" action="base.action_res_company_form"/>
 </data>
 </odoo>
