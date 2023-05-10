@@ -6,10 +6,10 @@ class ResCompanyInherit(models.Model):
 
     vr_trainee_seq_size = fields.Integer(default=3, string="VR Trainee Sequence Size")
     vr_trainee_seq_max_size = fields.Integer(compute='get_vr_trainee_seq_max_size', store=True, string="VR Trainee Sequence Max Size")
-    company_code = fields.Char()
+    company_code = fields.Char(required=True)
 
     _sql_constraints = [
-        ('company_code_uniq', 'unique(company_code)', 'Company Code must be unique.'),
+        ('res_company_code_uniq', 'unique(company_code)', 'Company Code must be unique.'),
     ]
 
     @api.depends('vr_trainee_seq_size')
