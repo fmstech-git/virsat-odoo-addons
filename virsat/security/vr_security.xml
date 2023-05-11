@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+<data>
+    <!-- Company-restricted Records -->
+    <record model="ir.rule" id="record_vr_trainee_company_rule">
+        <field name="name">Restricted VR Trainee: multi-company</field>
+        <field name="model_id" ref="model_vr_trainee"/>
+        <field name="global" eval="True"/>
+        <field name="domain_force">
+            [('company_id', 'in', company_ids)]
+        </field>
+    </record>
+
+    <record model="ir.rule" id="record_vr_game_result_company_rule">
+        <field name="name">Restricted VR Game Result: multi-company</field>
+        <field name="model_id" ref="model_vr_game_result"/>
+        <field name="global" eval="True"/>
+        <field name="domain_force">
+            [('company_id', 'in', company_ids)]
+        </field>
+    </record>
+</data>
+</odoo>

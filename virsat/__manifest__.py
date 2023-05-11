@@ -21,6 +21,7 @@
     "data": [
         # security
         'security/vr_groups.xml',
+        'security/vr_security.xml',
         'security/ir.model.access.csv',
         # views
         'views/vr_mails.xml',

@@ -31,7 +31,6 @@ class VrGameResult(models.Model):
     company_code = fields.Char()
     company_id = fields.Many2one('res.company', compute='get_company', store=True)
 
-    @api.onchange('name')
     @api.depends('name')
     def get_vr_trainee(self):
         for r in self:
