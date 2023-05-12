@@ -9,7 +9,7 @@
                     <field name="name"/>
                     <field name="company_id" groups="base.group_multi_company"/>
                     <field name="device_id"/>
-                    <field name="vr_game_id"/>
+                    <field name="vr_game_id" groups="base.group_no_one"/>
                     <field name="violation"/>
                     <field name="session_start"/>
                     <field name="session_end"/>
@@ -28,30 +28,22 @@
                     <sheet>
                         <group>
                             <group>
-                                <field name="name"/>
+                                <field name="name" groups="base.group_no_one"/>
                                 <field name="vr_trainee_id"/>
-                                <field name="company_code"/>
+                                <field name="company_code" groups="base.group_no_one"/>
                                 <field name="company_id" groups="base.group_multi_company"/>
-                                <field name="game_code"/>
+                                <field name="game_code" groups="base.group_no_one"/>
                                 <field name="vr_game_id"/>
                                 <field name="device_id"/>
                                 <field name="experience"/>
-                                <field name="violation"/>
-                                <field name="session_start"/>
-                                <field name="session_end"/>
                             </group>
                             <group>
-                                <field name="reaction_time" widget="datetime"/>
                                 <field name="selection"/>
-                                <field name="name"/>
-                                <field name="device_id"/>
                                 <field name="violation"/>
                                 <field name="session_start"/>
-                                <field name="session_end"/>
                                 <field name="session_end"/>
                                 <field name="reaction_time"/>
                                 <field name="view_time"/>
-                                <field name="selection"/>
                                 <field name="result"/>
                                 <field name="score"/>
                             </group>

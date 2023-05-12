@@ -14,7 +14,7 @@
     "license": "LGPL-3",
     "installable": True,
     "application": True,
-    "depends": ["base", "mail"],
+    "depends": ["base", "mail", "web"],
     "development_status": "Production/Stable",
     "maintainers": [],
     "excludes": [],
@@ -30,12 +30,15 @@
         'views/vr_games.xml',
         'views/res_company.xml',
         'views/menus.xml',
+        'views/webclient_templates.xml',
         # wizard
         'wizards/vr_trainee_import_wiz.xml',
         'wizards/vr_mails_fetch_wiz.xml',
     ],
     "assets": {
-        "web.assets_frontend": [],
+        "web.assets_frontend": [
+            'virsat/static/src/scss/*.scss',
+        ],
         "web.assets_backend": [],
         "web.assets_qweb": [],
     },
