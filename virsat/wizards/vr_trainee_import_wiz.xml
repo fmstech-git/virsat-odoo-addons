@@ -29,11 +29,11 @@
         <field name="target">new</field>
     </record>
 
-    <menuitem name="Import Trainees"
+    <!--<menuitem name="Import Trainees"
             id="vr_trainee_import_wiz_menu"
             parent="vr_trainee_root_menu"
             sequence="20"
             action="action_vr_trainee_import_wiz"
-        />
+        />-->
 </data>
 </odoo>

@@ -29,12 +29,12 @@
             <field name="view_mode">tree,form</field>
         </record>
 
-        <menuitem name="VIRSAT"
+        <!--<menuitem name="VIRSAT"
         id="virsat_menu_root"
         web_icon="virsat,static/description/icon.png"
         sequence="1"/>
 
-        <!-- Main top menu elements -->
+        &lt;!&ndash; Main top menu elements &ndash;&gt;
         <menuitem name="VR Mails"
             id="virsat_vr_mails_menu_root"
             parent="virsat_menu_root"
@@ -46,7 +46,7 @@
             parent="virsat_vr_mails_menu_root"
             sequence="10"
             action="action_virsat_vr_mails"
-        />
+        />-->
 
         <!--Dev IR Attachment-->
         <!--<record id="dev_ir_attachment_form_inherit" model="ir.ui.view">

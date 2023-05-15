@@ -1,7 +1,31 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <odoo>
 <data>
+    <menuitem name="VIRSAT" id="virsat_menu_root" web_icon="virsat,static/description/icon.png" sequence="1">
+        <menuitem name="VR Mails" id="virsat_vr_mails_menu_root" sequence="10">
+            <menuitem name="VR Mails" id="virsat_vr_mails_menu" sequence="10" action="action_virsat_vr_mails"/>
+            <menuitem name="Fetch VR Mails" id="vr_mails_fetch_wiz_menu" sequence="20" action="action_vr_mails_fetch_wiz"/>
+        </menuitem>
+
+        <menuitem name="Trainee" id="vr_trainee_root_menu" sequence="20">
+            <menuitem name="Trainee" id="vr_trainee_sub_menu" sequence="10" action="action_vr_trainee"/>
+            <menuitem name="Import Trainees" id="vr_trainee_import_wiz_menu" sequence="20" action="action_vr_trainee_import_wiz"/>
+        </menuitem>
+
+        <menuitem name="Configurations" id="vr_config_menu" sequence="100" groups="virsat.group_vr_manager">
+            <menuitem name="Reserved PIN" id="vr_reserved_pin_menu" sequence="10" action="action_vr_reserved_pin"/>
+            <menuitem name="Games" id="vr_games_menu" sequence="20" action="action_vr_games"/>
+            <menuitem id="vr_config_company_menu" name="Company" sequence="30" groups="virsat.group_vr_manager" action="base.action_res_company_form"/>
+        </menuitem>
+
+        <menuitem name="Game Result" id="vr_game_result_menu" sequence="30" action="action_vr_game_result" groups="virsat.group_vr_manager"/>
+
+        <menuitem id="vr_reports_root_menu" name="Reports" sequence="40" groups="virsat.group_vr_officer">
+            <menuitem name="Game Result" id="vr_game_result_report_menu" sequence="10" action="action_vr_game_result_report"/>
+        </menuitem>
+
+    </menuitem>
+
     <menuitem id="base.menu_management" name="Apps" sequence="500" web_icon="base,static/description/modules.png" groups="base.group_system"/>
-    <menuitem id="vr_config_company_menu" name="Company" sequence="30" groups="virsat.group_vr_manager" parent="virsat.vr_config_menu" action="base.action_res_company_form"/>
 </data>
 </odoo>

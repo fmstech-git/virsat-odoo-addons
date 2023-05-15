@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <odoo>
     <data>
-        <record id="view_vr_game_result_tree_view" model="ir.ui.view">
-            <field name="name">vr.game.result.tree.view</field>
+        <record id="view_vr_game_result_tree" model="ir.ui.view">
+            <field name="name">vr.game.result.tree</field>
             <field name="model">vr.game.result</field>
             <field name="arch" type="xml">
                 <tree string="Game Result">
@@ -10,6 +10,7 @@
                     <field name="company_id" groups="base.group_multi_company"/>
                     <field name="device_id"/>
                     <field name="vr_game_id" groups="base.group_no_one"/>
+                    <field name="level_code"/>
                     <field name="violation"/>
                     <field name="session_start"/>
                     <field name="session_end"/>
@@ -20,8 +21,8 @@
             </field>
         </record>
 
-        <record id="view_vr_game_result_form_view" model="ir.ui.view">
-            <field name="name">vr.game.result.form.view</field>
+        <record id="view_vr_game_result_form" model="ir.ui.view">
+            <field name="name">vr.game.result.form</field>
             <field name="model">vr.game.result</field>
             <field name="arch" type="xml">
                 <form string="Website Event Menu">
@@ -34,6 +35,8 @@
                                 <field name="company_id" groups="base.group_multi_company"/>
                                 <field name="game_code" groups="base.group_no_one"/>
                                 <field name="vr_game_id"/>
+                                <field name="level_code" groups="base.group_no_one"/>
+                                <field name="game_level_id"/>
                                 <field name="device_id"/>
                                 <field name="experience"/>
                             </group>
@@ -46,6 +49,7 @@
                                 <field name="view_time"/>
                                 <field name="result"/>
                                 <field name="score"/>
+                                <field name="status"/>
                             </group>
                         </group>
                     </sheet>
@@ -53,8 +57,8 @@
             </field>
         </record>
 
-        <record id="view_vr_game_result_graph_view" model="ir.ui.view">
-            <field name="name">vr.game.result.graph.view</field>
+        <record id="view_vr_game_result_graph" model="ir.ui.view">
+            <field name="name">vr.game.result.graph</field>
             <field name="model">vr.game.result</field>
             <field name="arch" type="xml">
                 <graph string="Game Result">
@@ -64,7 +68,7 @@
             </field>
         </record>
 
-        <record id="view_vr_game_result_pivot_view" model="ir.ui.view">
+        <!--<record id="view_vr_game_result_pivot_view" model="ir.ui.view">
             <field name="name">vr.game.result.pivot.view</field>
             <field name="model">vr.game.result</field>
             <field name="arch" type="xml">
@@ -73,21 +77,35 @@
                      <field name="score" type="measure"/>
                 </pivot>
             </field>
-        </record>
+        </record>-->
 
         <record id="action_vr_game_result" model="ir.actions.act_window">
             <field name="name">VR Game Result</field>
             <field name="res_model">vr.game.result</field>
-            <field name="view_mode">tree,form,graph,pivot</field>
+            <field name="view_mode">tree,form</field>
         </record>
 
-        <!-- Main top menu elements -->
-        <menuitem name="Game Result"
-            id="vr_game_result_menu"
-            parent="virsat_menu_root"
-            sequence="30"
-            action="action_vr_game_result"
-        />
+        <!-- Game Result Report -->
+        <record id="view_vr_game_result_report_pivot" model="ir.ui.view">
+            <field name="name">vr.game.result.report.pivot</field>
+            <field name="model">vr.game.result.report</field>
+            <field name="arch" type="xml">
+                <pivot string="Game Result" disable_linking="1">
+                    <field name="game_id" type="col"/>
+                    <field name="game_level_id" type="col"/>
+                    <field name="status" type="col"/>
+                    <field name="trainee_id" type="row"/>
+                    <field name="session_start" interval="hour" type="row"/>
+                    <field name="score" type="measure"/>
+                    <field name="passing_score" type="measure"/>
+                </pivot>
+            </field>
+        </record>
 
+        <record id="action_vr_game_result_report" model="ir.actions.act_window">
+            <field name="name">Game Result Report</field>
+            <field name="res_model">vr.game.result.report</field>
+            <field name="view_mode">pivot</field>
+        </record>
     </data>
 </odoo>

@@ -29,11 +29,12 @@
         'views/vr_trainee.xml',
         'views/vr_games.xml',
         'views/res_company.xml',
-        'views/menus.xml',
         'views/webclient_templates.xml',
         # wizard
         'wizards/vr_trainee_import_wiz.xml',
         'wizards/vr_mails_fetch_wiz.xml',
+        # Menu
+        'views/menus.xml',
     ],
     "assets": {
         "web.assets_frontend": [

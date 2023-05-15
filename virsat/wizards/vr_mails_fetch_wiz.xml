@@ -28,11 +28,11 @@
         <field name="target">new</field>
     </record>
 
-    <menuitem name="Fetch VR Mails"
+    <!--<menuitem name="Fetch VR Mails"
             id="vr_mails_fetch_wiz_menu"
             parent="virsat_vr_mails_menu_root"
             sequence="20"
             action="action_vr_mails_fetch_wiz"
-        />
+        />-->
 </data>
 </odoo>

@@ -38,7 +38,7 @@
             <field name="view_mode">tree,form</field>
         </record>
 
-        <menuitem name="Trainee"
+        <!--<menuitem name="Trainee"
             id="vr_trainee_root_menu"
             parent="virsat_menu_root"
             sequence="20"
@@ -56,7 +56,7 @@
             parent="virsat_menu_root"
             sequence="100"
             groups="virsat.group_vr_manager"
-        />
+        />-->
 
         <record id="view_vr_reserved_pin_tree" model="ir.ui.view">
             <field name="name">view.vr.reserved.pin.tree</field>
@@ -75,12 +75,12 @@
             <field name="view_mode">tree,form</field>
         </record>
 
-        <menuitem name="Reserved PIN"
+        <!--<menuitem name="Reserved PIN"
             id="vr_reserved_pin_menu"
             parent="vr_config_menu"
             sequence="10"
             action="action_vr_reserved_pin"
-        />
+        />-->
 
     </data>
 </odoo>
