@@ -14,7 +14,7 @@
     "license": "LGPL-3",
     "installable": True,
     "application": True,
-    "depends": ["base", "mail", "web"],
+    "depends": ["base", "mail", "web", "report_xlsx"],
     "development_status": "Production/Stable",
     "maintainers": [],
     "excludes": [],
