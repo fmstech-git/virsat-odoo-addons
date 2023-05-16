@@ -41,7 +41,7 @@ class VirsatVrMails(models.Model):
             result_raw = base64.b64decode(res.datas).decode("utf-8", "ignore")
             results = []
 
-            if res.mimetype == 'application/vnd.ms-excel':
+            if res.mimetype in ('application/vnd.ms-excel', 'text/csv'):
                 results = csv.DictReader(result_raw.split('\n'))
 
             if res.mimetype == 'application/json':
