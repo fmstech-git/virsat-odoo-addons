@@ -32,7 +32,7 @@ class VirsatVrMails(models.Model):
     def create(self, vals):
         res = super(VirsatVrMails, self).create(vals)
 
-        if res.res_model == 'virsat.vr.mails' and res.mimetype in ('application/vnd.ms-excel', 'application/json'):
+        if res.res_model == 'virsat.vr.mails' and res.mimetype in ('application/vnd.ms-excel', 'application/json', 'text/csv'):
             vr_mail = self.env[res.res_model].search([('id', '=', res.res_id)], limit=1)
             game_result_obj = self.env['vr.game.result']
             result_raw = base64.b64decode(res.datas).decode("utf-8", "ignore")
