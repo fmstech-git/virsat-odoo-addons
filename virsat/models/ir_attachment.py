@@ -44,6 +44,8 @@ class VirsatVrMails(models.Model):
             if res.mimetype == 'application/json':
                 results.append(json.loads(result_raw))
 
+            print("results ==> ", results)
+
             for line in results:
                 # convert dates
                 session_start = datetime.strptime(line['SessionStart'], '%Y/%m/%d %H:%M') if line.get('SessionStart') else False
@@ -74,10 +76,12 @@ class VirsatVrMails(models.Model):
                     'attachment_id': res.id,
                 })
 
+                print("new_game_result ==> ", new_game_result)
+
                 # create a new record in game result even if no matching pin
                 if new_game_result:
                     vr_mail.message_post(body="Game result created successfully.")
                     # immediately save even if next have issues
-                    self._cr.commit()
+                    # self._cr.commit()
 
         return res
