@@ -59,9 +59,9 @@ class VrTrainee(models.Model):
         return {
             'name': 'Game Result',
             'type': 'ir.actions.act_window',
-            'res_model': 'vr.game.result',
-            'view_mode': 'tree,form',
-            'domain': [('name', '=', self.pin)],
+            'res_model': 'vr.game.result.report',
+            'view_mode': 'tree,pivot',
+            'domain': [('trainee_id', '=', self.id)],
         }
 
 

@@ -23,6 +23,8 @@
         'security/vr_groups.xml',
         'security/vr_security.xml',
         'security/ir.model.access.csv',
+        # reports
+        'reports/excel_reports.xml',
         # views
         'views/vr_mails.xml',
         'views/vr_game_result.xml',

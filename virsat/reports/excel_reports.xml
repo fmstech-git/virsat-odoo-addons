@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+<data>
+    <record id="action_vr_game_result_report_xlsx" model="ir.actions.report">
+        <field name="name">Print to Excel</field>
+        <field name="model">vr.game.result.report</field>
+        <field name="report_type">xlsx</field>
+        <field name="report_name">virsat.vr_game_result_xlsx</field>
+        <field name="report_file">virsat.vr_game_result_xlsx</field>
+        <field name="binding_model_id" ref="virsat.model_vr_game_result_report"/>
+        <field name="binding_type">report</field>
+    </record>
+</data>
+</odoo>

@@ -10,9 +10,13 @@
                         <button name="view_game_result" type="object" string="View Game Result" class="oe_highlight"/>
                     </header>
                     <sheet>
+                        <div class="oe_title" groups="virsat.group_view_vr_trainee_name">
+                            <h1>
+                                <field name="name"/>
+                            </h1>
+                        </div>
                         <group col="4">
                             <field name="pin" readonly="1"/>
-                            <field name="name" groups="virsat.group_view_vr_trainee_name"/>
                             <field name="company_id" options="{'no_create_edit': True, 'no_open': True}" groups="base.group_multi_company"/>
                         </group>
                     </sheet>

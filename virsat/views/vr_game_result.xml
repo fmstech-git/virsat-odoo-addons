@@ -94,7 +94,8 @@
                     <field name="game_id" type="col"/>
                     <field name="game_level_id" type="col"/>
                     <field name="status" type="col"/>
-                    <field name="trainee_id" type="row"/>
+                    <field name="trainee_name" type="row"/>
+                    <!--<field name="trainee_id" type="row"/>-->
                     <field name="session_start" interval="hour" type="row"/>
                     <field name="score" type="measure"/>
                     <field name="passing_score" type="measure"/>
@@ -102,10 +103,44 @@
             </field>
         </record>
 
+        <record id="view_vr_game_result_report_tree" model="ir.ui.view">
+            <field name="name">vr.game.result.report.tree</field>
+            <field name="model">vr.game.result.report</field>
+            <field name="arch" type="xml">
+                <tree create="0">
+                    <field name="trainee_name"/>
+                    <field name="trainee_id"/>
+                    <field name="game_id"/>
+                    <field name="game_level_id"/>
+                    <field name="session_start"/>
+                    <field name="score"/>
+                    <field name="passing_score"/>
+                    <field name="status"/>
+                    <field name="company_id" groups="base.group_multi_company"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_vr_game_result_report_search" model="ir.ui.view">
+            <field name="name">vr.game.result.report.search</field>
+            <field name="model">vr.game.result.report</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="trainee_id"/>
+                    <field name="trainee_name" groups="virsat.group_view_vr_trainee_name"/>
+                    <filter string="Level" name="level" context="{'group_by':'game_level_id'}"/>
+                    <filter string="Game" name="game" context="{'group_by':'game_id'}"/>
+                    <filter string="PIN" name="trainee" context="{'group_by':'trainee_id'}"/>
+                    <filter string="Trainee Name" name="trainee" context="{'group_by':'trainee_name'}" groups="virsat.group_view_vr_trainee_name"/>
+                    <filter string="Session" name="session" context="{'group_by':'session_start'}"/>
+                </search>
+            </field>
+        </record>
+
         <record id="action_vr_game_result_report" model="ir.actions.act_window">
-            <field name="name">Game Result Report</field>
+            <field name="name">Games Report</field>
             <field name="res_model">vr.game.result.report</field>
-            <field name="view_mode">pivot</field>
+            <field name="view_mode">tree,pivot</field>
         </record>
     </data>
 </odoo>

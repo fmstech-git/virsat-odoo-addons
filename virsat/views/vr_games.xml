@@ -45,6 +45,40 @@
         <field name="view_mode">tree,form</field>
     </record>
 
+    <!--Game Levels-->
+    <record id="view_vr_game_levels_tree" model="ir.ui.view">
+        <field name="name">view.vr.game.levels.tree</field>
+        <field name="model">vr.game.levels</field>
+        <field name="arch" type="xml">
+            <tree string="Game Levels">
+               <field name="name"/>
+                <field name="passing_score"/>
+                <field name="game_id"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_vr_game_levels_form" model="ir.ui.view">
+        <field name="name">view.vr.game.levels.form</field>
+        <field name="model">vr.game.levels</field>
+        <field name="arch" type="xml">
+            <form string="Game Levels">
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <field name="code"/>
+                        <field name="passing_score"/>
+                        <field name="game_id"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
     <record id="action_vr_game_levels" model="ir.actions.act_window">
         <field name="name">VR Game Levels</field>
         <field name="res_model">vr.game.levels</field>
