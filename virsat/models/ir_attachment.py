@@ -4,6 +4,8 @@ import csv
 import json
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
+import logging
+_logger = logging.getLogger(__name__)
 
 
 class VirsatVrMails(models.Model):
@@ -32,6 +34,7 @@ class VirsatVrMails(models.Model):
     def create(self, vals):
         res = super(VirsatVrMails, self).create(vals)
 
+        _logger.info("Mime Type ==> %s", res.mimetype)
         if res.res_model == 'virsat.vr.mails' and res.mimetype in ('application/vnd.ms-excel', 'application/json', 'text/csv'):
             vr_mail = self.env[res.res_model].search([('id', '=', res.res_id)], limit=1)
             game_result_obj = self.env['vr.game.result']
@@ -45,6 +48,7 @@ class VirsatVrMails(models.Model):
                 results.append(json.loads(result_raw))
 
             print("results ==> ", results)
+            _logger.info("results ==> %s", results)
 
             for line in results:
                 # convert dates
@@ -77,11 +81,13 @@ class VirsatVrMails(models.Model):
                 })
 
                 print("new_game_result ==> ", new_game_result)
+                _logger.info("New game result ==> %s " % new_game_result)
 
                 # create a new record in game result even if no matching pin
                 if new_game_result:
                     vr_mail.message_post(body="Game result created successfully.")
                     # immediately save even if next have issues
                     # self._cr.commit()
+                    _logger.info("New game result added")
 
         return res
