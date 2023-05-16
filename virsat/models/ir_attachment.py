@@ -76,8 +76,7 @@ class VirsatVrMails(models.Model):
 
                 # create a new record in game result even if no matching pin
                 if new_game_result:
-                    # vr_mail.message_post(body="Game result created successfully.")
-
+                    vr_mail.message_post(body="Game result created successfully.")
                     # immediately save even if next have issues
                     self._cr.commit()
 
