@@ -14,10 +14,6 @@
                             <field name="vr_trainee_pin_max_size"/>
                             <field name="company_code"/>
                         </group>
-                        <group>
-                            <field name="theme_color" widget="color"/>
-                            <field name="theme_color"/>
-                        </group>
                     </group>
                 </page>
             </xpath>
