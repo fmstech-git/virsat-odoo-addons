@@ -8,12 +8,16 @@
         <field name="arch" type="xml">
             <xpath expr="//notebook/page[1]" position="after">
                 <page string="Other Information">
-                    <group string="Setup">
-                        <field name="vr_trainee_pin_size"/>
-                        <field name="vr_trainee_pin_max_size"/>
-                    </group>
                     <group>
-                        <field name="company_code"/>
+                        <group string="Setup">
+                            <field name="vr_trainee_pin_size"/>
+                            <field name="vr_trainee_pin_max_size"/>
+                            <field name="company_code"/>
+                        </group>
+                        <group>
+                            <field name="theme_color" widget="color"/>
+                            <field name="theme_color"/>
+                        </group>
                     </group>
                 </page>
             </xpath>

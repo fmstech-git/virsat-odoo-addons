@@ -32,6 +32,7 @@
         'views/vr_games.xml',
         'views/res_company.xml',
         'views/webclient_templates.xml',
+        'views/themes.xml',
         # wizard
         'wizards/vr_trainee_import_wiz.xml',
         'wizards/vr_mails_fetch_wiz.xml',

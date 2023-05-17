@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+<data>
+    <template id="virsat.theme_colors" name="VIRSAT Theme Colors" inherit_id="web.layout">
+        <xpath expr="//body" position="inside">
+            <t t-set="companies" t-value="request.httprequest.cookies.get('cids')"/>
+            <t t-if="companies">
+                <t t-set="company" t-value="request.env['res.company'].sudo().search_read([('id', '=', companies)], ['theme_color'], limit=1)"/>
+                <t t-set="color" t-value="company[0]['theme_color']"/>
+<!--                <t t-set="style" t-value="style + ' .btn_primary {background-color: %s !important;}' % company[0]['theme_color']"/>-->
+                <style t-if="color">
+                    <t t-set="navbar_theme" t-value="'.o_main_navbar {background-color: %s !important;border-bottom: 0px;}' % color"/>
+                    <t t-set="btn_primary" t-value="'.btn-primary {background-color: %s !important;border-color: %s;}' % (color, color)"/>
+                    <t t-set="btn_secondary" t-value="'.btn-secondary {color: %s !important;}' % color"/>
+
+                    <t t-out="navbar_theme"/>
+                    <t t-out="btn_primary"/>
+                    <t t-out="btn_secondary"/>
+                </style>
+            </t>
+<!--            <t att-style=".o_main_navbar {background-color: self.env.company.theme_color !important;border-bottom: 0px;}"/>-->
+       </xpath>
+    </template>
+</data>
+</odoo>

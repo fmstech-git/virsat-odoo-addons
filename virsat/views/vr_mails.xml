@@ -23,6 +23,18 @@
             </field>
         </record>
 
+        <record id="view_virsat_vr_mails_tree" model="ir.ui.view">
+            <field name="name">virsat.vr.mails.tree</field>
+            <field name="model">virsat.vr.mails</field>
+            <field name="arch" type="xml">
+                <tree string="VR Mails">
+                    <field name="name" string="Subject"/>
+                    <field name="create_date"/>
+                    <field name="message_main_attachment_id"/>
+                </tree>
+            </field>
+        </record>
+
         <record id="action_virsat_vr_mails" model="ir.actions.act_window">
             <field name="name">VR Mails</field>
             <field name="res_model">virsat.vr.mails</field>

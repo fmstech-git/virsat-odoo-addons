@@ -16,6 +16,7 @@ class VrGameResult(models.Model):
     vr_game_id = fields.Many2one('vr.games', compute="get_vr_game", string="Game", store=True)
     level_code = fields.Char()
     game_level_id = fields.Many2one('vr.game.levels', compute="get_vr_game_level", string="Game Level", store=True)
+    session_id = fields.Char()
     session_start = fields.Datetime()
     session_end = fields.Datetime()
     domain = fields.Char()
@@ -32,7 +33,7 @@ class VrGameResult(models.Model):
     vr_mail_id = fields.Many2one('virsat.vr.mails')
     attachment_id = fields.Many2one('ir.attachment')
     company_code = fields.Char()
-    status = fields.Selection([("pass", "Passed"), ('fail', 'Failed')], store=True)
+    status = fields.Selection([("passed", "Passed"), ('failed', 'Failed')])
 
     # @api.depends('level_code', 'score', 'game_level_id.passing_score')
     # def compute_status(self):

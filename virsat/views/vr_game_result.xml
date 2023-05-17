@@ -9,8 +9,8 @@
                     <field name="name"/>
                     <field name="company_id" groups="base.group_multi_company"/>
                     <field name="device_id"/>
-                    <field name="vr_game_id" groups="base.group_no_one"/>
-                    <field name="level_code"/>
+                    <field name="vr_game_id"/>
+                    <field name="game_level_id"/>
                     <field name="violation"/>
                     <field name="session_start"/>
                     <field name="session_end"/>

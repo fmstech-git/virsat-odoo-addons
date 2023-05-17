@@ -7,6 +7,7 @@ class ResCompanyInherit(models.Model):
     vr_trainee_pin_size = fields.Integer(default=3, string="VR Trainee PIN Size")
     vr_trainee_pin_max_size = fields.Integer(compute='get_vr_trainee_pin_max_size', store=True, string="VR Trainee PIN Max Size")
     company_code = fields.Char(required=True)
+    theme_color = fields.Char()
 
     _sql_constraints = [
         ('res_company_code_uniq', 'unique(company_code)', 'Company Code must be unique.'),
