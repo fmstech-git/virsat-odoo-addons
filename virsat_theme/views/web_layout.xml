@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <template id="virsat_theme.web_login_layout" name="VIRSAT Web Login Layout" inherit_id="web.login_layout">
+        <xpath expr="//div[hasclass('border-top')]" position="replace">
+            <div/>
+        </xpath>
+        <xpath expr="//div[hasclass('card-body')]//img" position="replace">
+            <img src="/virsat/static/description/virsat-logo.svg" alt="Logo" style="max-height:120px; max-width: 100%; width:auto"/>
+        </xpath>
+        <xpath expr="//div[hasclass('card-body')]" position="attributes">
+            <attribute name="class" add="p-4" separator=" "/>
+        </xpath>
+        <xpath expr="//div[hasclass('container')]" position="attributes">
+            <attribute name="class" add="h-100 w-100 vr-web-login-container" separator=" "/>
+        </xpath>
+    </template>
+
+    <template id="virsat_theme.theme_colors" name="VIRSAT Theme Colors" inherit_id="web.layout">
+        <xpath expr="//body" position="inside">
+            <!--<t t-set="vr_companies" t-value="request.env.user.company_ids"/>
+            <t t-if="vr_companies and len(vr_companies) == 1">
+            </t>-->
+            <t t-set="vr_color" t-value="request.env.company.theme_color"/>
+            <t t-set="vr_color_light" t-value="request.env.company.theme_color_lighter or color"/>
+            <style>
+                <t t-set="vr_navbar_theme" t-value="'.o_main_navbar {background-color: %s !important;border-bottom: 0px;}' % vr_color"/>
+                <t t-set="vr_app_background" t-value="'.o_navbar_apps_menu .dropdown-menu-custom {background: url(/web_responsive/static/src/img/home-menu-bg-overlay.svg), linear-gradient(to bottom, %s, %s);}' % (vr_color_light, vr_color)"/>
+                <t t-if="vr_color" t-out="vr_navbar_theme"/>
+                <t t-out="vr_app_background"/>
+            </style>
+
+       </xpath>
+    </template>
+</odoo>

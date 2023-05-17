@@ -16,6 +16,7 @@ class VrGameResult(models.Model):
     vr_game_id = fields.Many2one('vr.games', compute="get_vr_game", string="Game", store=True)
     level_code = fields.Char()
     game_level_id = fields.Many2one('vr.game.levels', compute="get_vr_game_level", string="Game Level", store=True)
+    session_id = fields.Char()
     session_start = fields.Datetime()
     session_end = fields.Datetime()
     domain = fields.Char()
@@ -24,24 +25,24 @@ class VrGameResult(models.Model):
     reaction_time = fields.Datetime()
     selection = fields.Char()
     sub_selection = fields.Char()
-    result = fields.Char()
-    score = fields.Integer()
+    # result = fields.Char()
+    # score = fields.Integer()
     gaze_point = fields.Char()
     view_count = fields.Integer()
     view_time = fields.Datetime()
     vr_mail_id = fields.Many2one('virsat.vr.mails')
     attachment_id = fields.Many2one('ir.attachment')
     company_code = fields.Char()
-    status = fields.Selection([("pass", "Passed"), ('fail', 'Failed')], compute="compute_status", store=True)
+    status = fields.Selection([("passed", "Passed"), ('failed', 'Failed')])
 
-    @api.depends('level_code', 'score', 'game_level_id.passing_score')
-    def compute_status(self):
-        for r in self:
-            passing_score = r.game_level_id.passing_score
-            if passing_score and r.score >= passing_score:
-                r.status = 'pass'
-            else:
-                r.status = 'fail'
+    # @api.depends('level_code', 'score', 'game_level_id.passing_score')
+    # def compute_status(self):
+    #     for r in self:
+    #         passing_score = r.game_level_id.passing_score
+    #         if passing_score and r.score >= passing_score:
+    #             r.status = 'pass'
+    #         else:
+    #             r.status = 'fail'
 
     @api.depends('name')
     def get_vr_trainee(self):
