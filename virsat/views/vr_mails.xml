@@ -29,27 +29,8 @@
             <field name="view_mode">tree,form</field>
         </record>
 
-        <!--<menuitem name="VIRSAT"
-        id="virsat_menu_root"
-        web_icon="virsat,static/description/icon.png"
-        sequence="1"/>
-
-        &lt;!&ndash; Main top menu elements &ndash;&gt;
-        <menuitem name="VR Mails"
-            id="virsat_vr_mails_menu_root"
-            parent="virsat_menu_root"
-            sequence="10"
-        />
-
-        <menuitem name="VR Mails"
-            id="virsat_vr_mails_menu"
-            parent="virsat_vr_mails_menu_root"
-            sequence="10"
-            action="action_virsat_vr_mails"
-        />-->
-
         <!--Dev IR Attachment-->
-        <!--<record id="dev_ir_attachment_form_inherit" model="ir.ui.view">
+        <record id="dev_ir_attachment_form_inherit" model="ir.ui.view">
             <field name="name">DEV IR Attachment Form Inherit</field>
             <field name="model">ir.attachment</field>
             <field name="inherit_id" ref="base.view_attachment_form"/>
@@ -60,7 +41,7 @@
                     </header>
                 </xpath>
             </field>
-        </record>-->
+        </record>
 
     </data>
 </odoo>

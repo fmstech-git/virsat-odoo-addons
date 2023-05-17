@@ -68,17 +68,6 @@
             </field>
         </record>
 
-        <!--<record id="view_vr_game_result_pivot_view" model="ir.ui.view">
-            <field name="name">vr.game.result.pivot.view</field>
-            <field name="model">vr.game.result</field>
-            <field name="arch" type="xml">
-                <pivot string="Game Result">
-                    <field name="name" type="col"/>
-                     <field name="score" type="measure"/>
-                </pivot>
-            </field>
-        </record>-->
-
         <record id="action_vr_game_result" model="ir.actions.act_window">
             <field name="name">VR Game Result</field>
             <field name="res_model">vr.game.result</field>
