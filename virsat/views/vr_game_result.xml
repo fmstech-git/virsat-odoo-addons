@@ -16,7 +16,7 @@
                     <field name="session_end"/>
                     <field name="reaction_time"/>
                     <field name="selection"/>
-                    <field name="result"/>
+                    <field name="status"/>
                 </tree>
             </field>
         </record>
@@ -47,8 +47,8 @@
                                 <field name="session_end"/>
                                 <field name="reaction_time"/>
                                 <field name="view_time"/>
-                                <field name="result"/>
-                                <field name="score"/>
+                                <!--<field name="result"/>
+                                <field name="score"/>-->
                                 <field name="status"/>
                             </group>
                         </group>
@@ -57,7 +57,7 @@
             </field>
         </record>
 
-        <record id="view_vr_game_result_graph" model="ir.ui.view">
+        <!--<record id="view_vr_game_result_graph" model="ir.ui.view">
             <field name="name">vr.game.result.graph</field>
             <field name="model">vr.game.result</field>
             <field name="arch" type="xml">
@@ -66,7 +66,7 @@
                     <field name="score" type="measure"/>
                 </graph>
             </field>
-        </record>
+        </record>-->
 
         <record id="action_vr_game_result" model="ir.actions.act_window">
             <field name="name">VR Game Result</field>
@@ -86,8 +86,8 @@
                     <field name="trainee_name" type="row"/>
                     <!--<field name="trainee_id" type="row"/>-->
                     <field name="session_start" interval="hour" type="row"/>
-                    <field name="score" type="measure"/>
-                    <field name="passing_score" type="measure"/>
+                    <!--<field name="score" type="measure"/>
+                    <field name="passing_score" type="measure"/>-->
                 </pivot>
             </field>
         </record>
@@ -102,8 +102,8 @@
                     <field name="game_id"/>
                     <field name="game_level_id"/>
                     <field name="session_start"/>
-                    <field name="score"/>
-                    <field name="passing_score"/>
+                    <!--<field name="score"/>
+                    <field name="passing_score"/>-->
                     <field name="status"/>
                     <field name="company_id" groups="base.group_multi_company"/>
                 </tree>
