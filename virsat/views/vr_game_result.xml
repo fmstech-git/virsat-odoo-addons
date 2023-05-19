@@ -75,7 +75,45 @@
         </record>
 
         <!-- Game Result Report -->
-        <record id="view_vr_game_result_report_pivot" model="ir.ui.view">
+        <record id="view_vr_game_result_report_kanban" model="ir.ui.view">
+            <field name="name">vr.game.result.report.kanban</field>
+            <field name="model">vr.game.result.report</field>
+            <field name="arch" type="xml">
+                <kanban class="o_kanban_mobile" create="false" group_create="false">
+                    <templates>
+                        <field name="game_id"/>
+                        <field name="status"/>
+                        <t t-name="kanban-box">
+                            <div class="oe_kanban_content flex-grow-1">
+                                <div class="o_kanban_record_title oe_kanban_details">
+                                    <h3><field name="game_level_id"/></h3>
+                                </div>
+                                <div class="o_kanban_record_subtitle">
+                                    <field name="game_id"/>
+                                </div>
+                                 <div class="row mt-2">
+                                    <div>PIN: <field name="trainee_id"/></div>
+                                    <div>Name: <field name="trainee_name" groups="virsat.group_view_vr_trainee_name"/></div>
+                                    <div>Session Start: <field name="session_start"/></div>
+                                    <div>Session End: <field name="session_end"/></div>
+                                    <div class="mt-2">
+                                        <t t-if="record.status.raw_value == 'passed'">
+                                            <div class="h1"><i class="fa fa-check-circle text-success"/> Passed</div>
+                                        </t>
+                                        <t t-else="">
+                                            <div class="h1"><i class="fa fa-times-circle-o text-danger"/> Failed</div>
+                                        </t>
+                                    </div>
+                                 </div>
+                            </div>
+
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+        <!--<record id="view_vr_game_result_report_pivot" model="ir.ui.view">
             <field name="name">vr.game.result.report.pivot</field>
             <field name="model">vr.game.result.report</field>
             <field name="arch" type="xml">
@@ -84,13 +122,13 @@
                     <field name="game_level_id" type="col"/>
                     <field name="status" type="col"/>
                     <field name="trainee_name" type="row"/>
-                    <!--<field name="trainee_id" type="row"/>-->
+                    &lt;!&ndash;<field name="trainee_id" type="row"/>&ndash;&gt;
                     <field name="session_start" interval="hour" type="row"/>
-                    <!--<field name="score" type="measure"/>
-                    <field name="passing_score" type="measure"/>-->
+                    &lt;!&ndash;<field name="score" type="measure"/>
+                    <field name="passing_score" type="measure"/>&ndash;&gt;
                 </pivot>
             </field>
-        </record>
+        </record>-->
 
         <record id="view_vr_game_result_report_tree" model="ir.ui.view">
             <field name="name">vr.game.result.report.tree</field>
@@ -127,9 +165,9 @@
         </record>
 
         <record id="action_vr_game_result_report" model="ir.actions.act_window">
-            <field name="name">Games Report</field>
+            <field name="name">Game Results</field>
             <field name="res_model">vr.game.result.report</field>
-            <field name="view_mode">tree,pivot</field>
+            <field name="view_mode">kanban,tree</field>
         </record>
     </data>
 </odoo>

@@ -19,7 +19,7 @@ class VrGameResultReport(models.Model):
     session_end = fields.Datetime()
     # score = fields.Integer()
     # passing_score = fields.Integer()
-    status = fields.Selection([("pass", "Passed"), ('fail', 'Failed')], readonly=True)
+    status = fields.Selection([("passed", "Passed"), ('failed', 'Failed')], readonly=True)
 
     _depends = {
         'vr.game.result': ['name'],

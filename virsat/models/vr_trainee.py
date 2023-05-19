@@ -60,7 +60,7 @@ class VrTrainee(models.Model):
             'name': 'Game Result',
             'type': 'ir.actions.act_window',
             'res_model': 'vr.game.result.report',
-            'view_mode': 'tree,pivot',
+            'view_mode': 'kanban,tree',
             'domain': [('trainee_id', '=', self.id)],
         }
 
