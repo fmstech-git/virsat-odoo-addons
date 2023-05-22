@@ -35,28 +35,19 @@ class VrGameResult(models.Model):
     company_code = fields.Char()
     status = fields.Selection([("passed", "Passed"), ('failed', 'Failed')])
 
-    # @api.depends('level_code', 'score', 'game_level_id.passing_score')
-    # def compute_status(self):
-    #     for r in self:
-    #         passing_score = r.game_level_id.passing_score
-    #         if passing_score and r.score >= passing_score:
-    #             r.status = 'pass'
-    #         else:
-    #             r.status = 'fail'
-
-    @api.depends('name')
+    @api.depends('name', 'company_id')
     def get_vr_trainee(self):
         for r in self:
             if r.company_id:
                 r.vr_trainee_id = self.env['vr.trainee'].search([('pin', '=', r.name), ('company_id', '=', r.company_id.id)]) or False
 
-    @api.depends('game_code')
+    @api.depends('game_code', 'company_id')
     def get_vr_game(self):
         for r in self:
             if r.company_id:
                 r.vr_game_id = self.env['vr.games'].search([('code', '=', r.game_code), ('company_id', '=', r.company_id.id)]) or False
 
-    @api.depends('level_code')
+    @api.depends('level_code', 'company_id')
     def get_vr_game_level(self):
         for r in self:
             if r.game_code:

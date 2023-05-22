@@ -51,8 +51,8 @@
         <field name="model">vr.game.levels</field>
         <field name="arch" type="xml">
             <tree string="Game Levels">
-               <field name="name"/>
-                <field name="passing_score"/>
+                <field name="name"/>
+                <!--<field name="passing_score"/>-->
                 <field name="game_id"/>
             </tree>
         </field>
@@ -71,7 +71,7 @@
                     </div>
                     <group>
                         <field name="code"/>
-                        <field name="passing_score"/>
+                        <!--<field name="passing_score"/>-->
                         <field name="game_id"/>
                     </group>
                 </sheet>

@@ -31,6 +31,12 @@
         # Menu
         'views/menus.xml',
     ],
-    "assets": {},
+    "assets": {
+        'web.assets_backend': [
+            'virsat/static/src/components/**/*.js',
+            'virsat/static/src/components/**/*.xml',
+            'virsat/static/src/components/**/*.scss',
+        ],
+    },
     "sequence": 1,
 }
