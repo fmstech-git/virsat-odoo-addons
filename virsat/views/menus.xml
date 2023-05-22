@@ -2,6 +2,8 @@
 <odoo>
 <data>
     <menuitem name="VIRSAT" id="virsat_menu_root" web_icon="virsat,static/description/icon.png" sequence="1">
+        <menuitem name="Dashboard" id="vr_dashboard_menu" sequence="1" action="client_action_dashboard" groups="virsat.group_vr_officer"/>
+
         <menuitem name="VR Mails" id="virsat_vr_mails_menu_root" sequence="10">
             <menuitem name="VR Mails" id="virsat_vr_mails_menu" sequence="10" action="action_virsat_vr_mails"/>
             <menuitem name="Game Result" id="vr_game_result_menu" sequence="20" action="action_vr_game_result" groups="virsat.group_vr_manager"/>

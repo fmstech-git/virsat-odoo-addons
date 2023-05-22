@@ -169,5 +169,10 @@
             <field name="res_model">vr.game.result.report</field>
             <field name="view_mode">kanban,tree</field>
         </record>
+
+        <record model="ir.actions.client" id="client_action_dashboard">
+            <field name="name">Dashboard</field>
+            <field name="tag">virsat.dashboard</field>
+        </record>
     </data>
 </odoo>

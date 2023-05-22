@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from . import vr_mails
 from . import vr_game_result
 from . import ir_attachment

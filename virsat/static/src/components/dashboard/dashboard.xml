@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates xml:space="preserve">
+
+<t t-name="virsat.dashboard" owl="1">
+    <Layout display="display">
+        <t t-set-slot="control-panel-bottom-left">
+            <button class="btn btn-primary" t-on-click="openGameResultsReport"> View Game Results </button>
+        </t>
+    </Layout>
+
+    <t t-call="virsat.dashboard.statistics"/>
+</t>
+
+<t t-name="virsat.dashboard.statistics" owl="1">
+    <div class="row m-3">
+        <div class="col-lg-6">
+            <div class="row">
+                <div class="col text-center bg-white p-3 border me-2">
+                    <div class="h1"><i class="oi oi-apps text-primary"/></div>
+                    <div class="vr-dashboard-counter"><strong t-esc="statistics['games']"/></div>
+                    <div>Games</div>
+                </div>
+                <div class="col text-center bg-white p-3 border me-2">
+                    <div class="h1"><i class="fa fa-tasks text-primary"/></div>
+                    <div class="vr-dashboard-counter"><strong t-esc="statistics['sessions']"/></div>
+                    <div>Sessions</div>
+                </div>
+                <div class="col text-center bg-white p-3 border">
+                    <div class="h1"><i class="fa fa-users text-primary"/></div>
+                    <div class="vr-dashboard-counter"><strong t-esc="statistics['trainees']"/></div>
+                    <div>Trainees</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6 pe-0">
+            <div class="bg-white border p-3">
+                <h2 class="text-center">Sessions KPI</h2>
+                <PieChart data="statistics['sessions_stats']" label="'Sessions KPI'"/>
+            </div>
+        </div>
+    </div>
+</t>
+
+</templates>
