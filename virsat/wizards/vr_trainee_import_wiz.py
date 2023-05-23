@@ -41,28 +41,32 @@ class VrTraineeImportWizard(models.TransientModel):
 
         new_trainees = []
         for r in trainee_list:
-            # prepare the data
-            dob = False
-            if r.get('dob'):
-                datetime_date = xlrd.xldate.xldate_as_datetime(float(r['dob']), 0)
-                dob = datetime_date.date()
+            try:
+                # prepare the data
+                dob = False
+                if r.get('dob'):
+                    datetime_date = xlrd.xldate.xldate_as_datetime(float(r['dob']), 0)
+                    dob = datetime_date.date()
 
-            trainee_data = {
-                'name': r['name'].strip() if r.get('name') else False,
-                'unit': r.get('unit', False),
-                'designation': r.get('designation', False),
-                'driver_for': r.get('driver_for', False),
-                'location': r.get('location', False),
-                'nationality': r.get('nationality', False),
-                'language': r['language'].lower() if r.get('language') else False,
-                'gender': r['gender'].lower() if r.get('gender') else False,
-                'dob': dob,
-                'company_id': self.company_id.id,
-            }
+                trainee_data = {
+                    'name': r['name'].strip() if r.get('name') else False,
+                    'unit': r.get('unit', False),
+                    'designation': r.get('designation', False),
+                    'driver_for': r.get('driver_for', False),
+                    'location': r.get('location', False),
+                    'nationality': r.get('nationality', False),
+                    'language': r['language'].lower() if r.get('language') else False,
+                    'gender': r['gender'].lower() if r.get('gender') else False,
+                    'dob': dob,
+                    'company_id': self.company_id.id,
+                }
 
-            # create new trainee
-            new = vr_trainee_obj.create(trainee_data)
-            new_trainees.append(new.id)
+                # create new trainee
+                new = vr_trainee_obj.create(trainee_data)
+                new_trainees.append(new.id)
+
+            except Exception as e:
+                raise ValidationError("Something went wrong, %s" % e)
 
         # show all newly created trainees
         return {
