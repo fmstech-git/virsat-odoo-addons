@@ -17,6 +17,7 @@
                     <field name="reaction_time"/>
                     <field name="selection"/>
                     <field name="status"/>
+                    <field name="create_date" groups="base.group_no_one"/>
                 </tree>
             </field>
         </record>
@@ -47,9 +48,8 @@
                                 <field name="session_end"/>
                                 <field name="reaction_time"/>
                                 <field name="view_time"/>
-                                <!--<field name="result"/>
-                                <field name="score"/>-->
                                 <field name="status"/>
+                                <field name="vr_mail_id" groups="base.group_no_one"/>
                             </group>
                         </group>
                     </sheet>
