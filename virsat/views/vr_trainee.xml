@@ -7,9 +7,14 @@
             <field name="arch" type="xml">
                 <form string="Trainee">
                     <header>
-                        <button name="view_game_result" type="object" string="View Game Result" class="oe_highlight"/>
+                        <button name="action_view_game_result" type="object" string="View Game Result" class="oe_highlight" attrs="{'invisible':[('game_sessions_count', '=', 0)]}"/>
                     </header>
                     <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button name="action_view_game_result" type="object" class="oe_stat_button" icon="fa-tasks" attrs="{'invisible':[('game_sessions_count', '=', 0)]}">
+                                <field string="Game Sessions" name="game_sessions_count" widget="statinfo"/>
+                            </button>
+                        </div>
                         <div class="oe_title" groups="virsat.group_view_vr_trainee_name">
                             <h1>
                                 <field name="name"/>
@@ -33,6 +38,7 @@
                         </group>
 
                         <field name="active" invisible="1"/>
+                        <field name="game_sessions_count" invisible="1"/>
                     </sheet>
                 </form>
             </field>

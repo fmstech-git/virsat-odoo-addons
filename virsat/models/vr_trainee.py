@@ -16,6 +16,7 @@ class VrTrainee(models.Model):
     name = fields.Char(string="Name", index=True, groups="virsat.group_view_vr_trainee_name", copy=False, required=True)
     company_id = fields.Many2one('res.company', default=lambda self: self.env.company)
     vr_game_result_ids = fields.One2many('vr.game.result', 'vr_trainee_id')
+    game_sessions_count = fields.Integer(compute="compute_game_sessions_count")
     unit = fields.Char()
     designation = fields.Char()
     driver_for = fields.Char(string="Driver for (L.V/H.V)")
@@ -70,8 +71,10 @@ class VrTrainee(models.Model):
 
         return pin
 
-    def view_game_result(self):
-        self.ensure_one()
+    def compute_game_sessions_count(self):
+        self.game_sessions_count = len(self.env['vr.game.result'].search([('vr_trainee_id', '=', self.id)]))
+
+    def action_view_game_result(self):
         return {
             'name': 'Game Result',
             'type': 'ir.actions.act_window',
