@@ -1,7 +1,7 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 access_virsat_vr_mails,access.virsat.vr.mails,model_virsat_vr_mails,virsat.group_vr_manager,1,1,1,1
 access_vr_game_result_user,access.vr.game.result.user,model_vr_game_result,virsat.group_vr_user,1,0,0,0
-access_vr_game_result_manager,access.vr.game.result.manager,model_vr_game_result,virsat.group_vr_user,1,1,1,1
+access_vr_game_result_manager,access.vr.game.result.manager,model_vr_game_result,base.group_system,1,1,1,1
 access_vr_trainee_user,access.vr.trainee.user,model_vr_trainee,virsat.group_vr_trainee_user,1,0,0,0
 access_vr_trainee_mngr,access.vr.trainee.mngr,model_vr_trainee,virsat.group_vr_trainee_manager,1,1,1,1
 access_vr_reserved_pin_mngr,access.vr.reserved.pin.mngr,model_vr_reserved_pin,virsat.group_vr_manager,1,1,1,1

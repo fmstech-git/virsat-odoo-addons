@@ -58,19 +58,8 @@
             </field>
         </record>
 
-        <!--<record id="view_vr_game_result_graph" model="ir.ui.view">
-            <field name="name">vr.game.result.graph</field>
-            <field name="model">vr.game.result</field>
-            <field name="arch" type="xml">
-                <graph string="Game Result">
-                    <field name="name"/>
-                    <field name="score" type="measure"/>
-                </graph>
-            </field>
-        </record>-->
-
         <record id="action_vr_game_result" model="ir.actions.act_window">
-            <field name="name">VR Game Result</field>
+            <field name="name">VR Game Results</field>
             <field name="res_model">vr.game.result</field>
             <field name="view_mode">tree,form</field>
         </record>

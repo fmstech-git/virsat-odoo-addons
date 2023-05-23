@@ -6,7 +6,7 @@
 
         <menuitem name="VR Mails" id="virsat_vr_mails_menu_root" sequence="10">
             <menuitem name="VR Mails" id="virsat_vr_mails_menu" sequence="10" action="action_virsat_vr_mails"/>
-            <menuitem name="Game Result" id="vr_game_result_menu" sequence="20" action="action_vr_game_result" groups="virsat.group_vr_manager"/>
+            <menuitem name="Game Results" id="vr_game_result_menu" sequence="20" action="action_vr_game_result" groups="virsat.group_vr_manager"/>
             <menuitem name="Fetch VR Mails" id="vr_mails_fetch_wiz_menu" sequence="50" action="action_vr_mails_fetch_wiz"/>
         </menuitem>
 
