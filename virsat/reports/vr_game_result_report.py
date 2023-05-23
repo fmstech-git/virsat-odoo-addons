@@ -8,7 +8,7 @@ class VrGameResultReport(models.Model):
     _description = "VR Game Result Report"
     _auto = False
     _rec_name = 'trainee_id'
-    _order = 'session_start desc'
+    _order = 'id desc'
 
     trainee_id = fields.Many2one('vr.trainee', readonly=True, string="PIN")
     trainee_name = fields.Char(readonly=True, groups="virsat.group_view_vr_trainee_name")

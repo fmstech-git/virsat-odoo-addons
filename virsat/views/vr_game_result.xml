@@ -6,6 +6,7 @@
             <field name="model">vr.game.result</field>
             <field name="arch" type="xml">
                 <tree string="Game Result">
+                    <field name="id" groups="base.group_no_one"/>
                     <field name="name"/>
                     <field name="company_id" groups="base.group_multi_company"/>
                     <field name="device_id"/>
@@ -113,28 +114,12 @@
             </field>
         </record>
 
-        <!--<record id="view_vr_game_result_report_pivot" model="ir.ui.view">
-            <field name="name">vr.game.result.report.pivot</field>
-            <field name="model">vr.game.result.report</field>
-            <field name="arch" type="xml">
-                <pivot string="Game Result" disable_linking="1">
-                    <field name="game_id" type="col"/>
-                    <field name="game_level_id" type="col"/>
-                    <field name="status" type="col"/>
-                    <field name="trainee_name" type="row"/>
-                    &lt;!&ndash;<field name="trainee_id" type="row"/>&ndash;&gt;
-                    <field name="session_start" interval="hour" type="row"/>
-                    &lt;!&ndash;<field name="score" type="measure"/>
-                    <field name="passing_score" type="measure"/>&ndash;&gt;
-                </pivot>
-            </field>
-        </record>-->
-
         <record id="view_vr_game_result_report_tree" model="ir.ui.view">
             <field name="name">vr.game.result.report.tree</field>
             <field name="model">vr.game.result.report</field>
             <field name="arch" type="xml">
                 <tree create="0">
+                    <field name="id" groups="base.group_no_one"/>
                     <field name="trainee_name"/>
                     <field name="trainee_id"/>
                     <field name="game_id"/>
