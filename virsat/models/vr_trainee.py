@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from odoo import fields, models, api
 import random
-from odoo.exceptions import ValidationError
+from odoo.exceptions import ValidationError, Warning
 
 
 class VrTrainee(models.Model):
@@ -12,14 +12,30 @@ class VrTrainee(models.Model):
     _check_company_auto = True
 
     pin = fields.Char(default="New", index=True, copy=False, string="PIN", required=True)
+    active = fields.Boolean(default=True)
     name = fields.Char(string="Name", index=True, groups="virsat.group_view_vr_trainee_name", copy=False, required=True)
     company_id = fields.Many2one('res.company', default=lambda self: self.env.company)
     vr_game_result_ids = fields.One2many('vr.game.result', 'vr_trainee_id')
+    unit = fields.Char()
+    designation = fields.Char()
+    driver_for = fields.Char(string="Driver for (L.V/H.V)")
+    location = fields.Char()
+    language = fields.Selection([('arabic', 'ARABIC'), ('english', 'ENGLISH'), ('hindi', 'HINDI')])
+    nationality = fields.Char()
+    gender = fields.Selection([('male', 'Male'), ('female', 'Female')])
+    dob = fields.Date()
 
     _sql_constraints = [
         ('name_company_uniq', 'unique(name,company_id)', 'Trainee Name already exist in your company.'),
         ('pin_company_uniq', 'unique(pin,company_id)', 'Pin must be unique in your company.'),
     ]
+
+    def unlink(self):
+        """Do not allow deletion if there's existing game result connected to the trainee"""
+        if self.vr_game_result_ids:
+            raise ValidationError("You can't delete trainee that has game history. Archive it instead.")
+        res = super().unlink()
+        return res
 
     @api.model
     def create(self, vals):

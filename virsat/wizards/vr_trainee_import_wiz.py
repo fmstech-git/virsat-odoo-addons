@@ -3,6 +3,8 @@ from odoo import fields, models, api
 from xlrd import open_workbook
 import base64
 from odoo.exceptions import ValidationError
+import xlrd
+
 
 class VrTraineeImportWizard(models.TransientModel):
     _name = "vr.trainee.import.wiz"
@@ -13,6 +15,9 @@ class VrTraineeImportWizard(models.TransientModel):
     company_id = fields.Many2one('res.company', default=lambda self: self.env.company)
 
     def import_trainee(self):
+        """
+        Import trainees using excel.
+        """
         file_data = base64.b64decode(self.file)
         wb = open_workbook(file_contents=file_data)
         sheet = wb.sheet_by_index(0)
@@ -21,7 +26,7 @@ class VrTraineeImportWizard(models.TransientModel):
 
         for row in range(sheet.nrows):
             if row <= 0:
-                fields = list(map(lambda x: str(x.value.lower()), sheet.row(row)))
+                fields = list(map(lambda x: str(x.value.lower().replace(" ", "_")), sheet.row(row)))
             else:
                 lines = list(map(lambda x: isinstance(x.value, bytes) and x.value.encode('utf-8') or str(x.value), sheet.row(row)))
 
@@ -36,9 +41,30 @@ class VrTraineeImportWizard(models.TransientModel):
 
         new_trainees = []
         for r in trainee_list:
-            new = vr_trainee_obj.create({'name': r['name'].strip(), 'company_id': self.company_id.id})
+            # prepare the data
+            dob = False
+            if r.get('dob'):
+                datetime_date = xlrd.xldate.xldate_as_datetime(float(r['dob']), 0)
+                dob = datetime_date.date()
+
+            trainee_data = {
+                'name': r['name'].strip() if r.get('name') else False,
+                'unit': r.get('unit', False),
+                'designation': r.get('designation', False),
+                'driver_for': r.get('driver_for', False),
+                'location': r.get('location', False),
+                'nationality': r.get('nationality', False),
+                'language': r['language'].lower() if r.get('language') else False,
+                'gender': r['gender'].lower() if r.get('gender') else False,
+                'dob': dob,
+                'company_id': self.company_id.id,
+            }
+
+            # create new trainee
+            new = vr_trainee_obj.create(trainee_data)
             new_trainees.append(new.id)
 
+        # show all newly created trainees
         return {
             "name": "New Trainees",
             "type": "ir.actions.act_window",

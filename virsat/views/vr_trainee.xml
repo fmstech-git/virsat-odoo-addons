@@ -15,10 +15,24 @@
                                 <field name="name"/>
                             </h1>
                         </div>
-                        <group col="4">
-                            <field name="pin" readonly="1"/>
-                            <field name="company_id" options="{'no_create_edit': True, 'no_open': True}" groups="base.group_multi_company"/>
+                        <group>
+                            <group>
+                                <field name="pin" readonly="1"/>
+                                <field name="unit"/>
+                                <field name="designation"/>
+                                <field name="gender"/>
+                                <field name="dob"/>
+                            </group>
+                            <group>
+                                <field name="company_id" options="{'no_create_edit': True, 'no_open': True}" groups="base.group_multi_company"/>
+                                <field name="driver_for"/>
+                                <field name="location"/>
+                                <field name="language"/>
+                                <field name="nationality"/>
+                            </group>
                         </group>
+
+                        <field name="active" invisible="1"/>
                     </sheet>
                 </form>
             </field>
@@ -31,6 +45,12 @@
                 <tree string="Trainee" import="false">
                     <field name="pin"/>
                     <field name="name" groups="virsat.group_view_vr_trainee_name"/>
+                    <field name="unit"/>
+                    <field name="designation"/>
+                    <field name="driver_for"/>
+                    <field name="location"/>
+                    <field name="language"/>
+                    <field name="nationality"/>
                     <field name="company_id" groups="base.group_multi_company"/>
                 </tree>
             </field>
