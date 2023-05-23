@@ -12,6 +12,10 @@ class VrGame(models.Model):
     company_id = fields.Many2one('res.company', default=lambda self: self.env.company)
     levels_count = fields.Integer(compute='compute_level_count')
 
+    _sql_constraints = [
+        ('code_company_uniq', 'unique(code,company_id)', 'Game code must be unique per company.'),
+    ]
+
     def compute_level_count(self):
         for rec in self:
             rec.levels_count = len(self.env['vr.game.levels'].search([('game_id', '=', rec.id)]))
@@ -35,3 +39,7 @@ class VrGameLevels(models.Model):
     code = fields.Char(required=True)
     passing_score = fields.Integer(default=1)
     game_id = fields.Many2one("vr.games")
+
+    _sql_constraints = [
+        ('code_game_uniq', 'unique(code,game_id)', 'Level code must be unique per game.'),
+    ]
