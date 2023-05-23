@@ -50,7 +50,7 @@ class VrGameResultReport(models.Model):
         return '''
             FROM vr_game_result line
             LEFT JOIN vr_trainee trainee ON trainee.id = line.vr_trainee_id
-            LEFT JOIN vr_game_levels level ON level.code = line.level_code
+            LEFT JOIN vr_game_levels level ON level.code = line.level_code and level.game_id = line.vr_game_id
         '''
 
     @api.model
