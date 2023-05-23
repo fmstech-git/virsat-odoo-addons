@@ -49,7 +49,7 @@
                                 <field name="reaction_time"/>
                                 <field name="view_time"/>
                                 <field name="status"/>
-                                <field name="vr_mail_id" groups="base.group_no_one"/>
+                                <field name="vr_mail_id" groups="base.group_no_one" readonly="1"/>
                             </group>
                         </group>
                     </sheet>
