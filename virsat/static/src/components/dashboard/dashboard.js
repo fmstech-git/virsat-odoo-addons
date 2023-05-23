@@ -28,12 +28,18 @@ class VirsatDashboard extends Component {
 
         onWillStart(async () => {
             this.statistics = await this.rpc("/virsat/statistics");
-            console.log(this.statistics)
+            this.companies = await this.rpc("/virsat/selected-companies");
         });
     }
 
      openGameResultsReport() {
-        this.action.doAction("virsat.action_vr_game_result_report");
+        this.action.doAction({
+            type: "ir.actions.act_window",
+            name: "Game Results",
+            res_model: "vr.game.result.report",
+            views: [[false, "kanban"], [false, "tree"]],
+            domain: [['company_id', 'in', this.companies]]
+        });
     }
 }
 

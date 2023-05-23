@@ -168,6 +168,7 @@
             <field name="name">Game Results</field>
             <field name="res_model">vr.game.result.report</field>
             <field name="view_mode">kanban,tree</field>
+            <field name="domain">[]</field>
         </record>
 
         <record model="ir.actions.client" id="client_action_dashboard">
