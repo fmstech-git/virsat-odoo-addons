@@ -62,10 +62,10 @@ class VirsatVrMails(models.Model):
             for line in results:
                 try:
                     # convert dates
-                    session_start = datetime.strptime(line['SessionStart'], '%Y/%m/%d %H:%M') if line.get('SessionStart') else False
-                    session_end = datetime.strptime(line['SessionEnd'], '%Y/%m/%d %H:%M') if line.get('SessionEnd') else False
-                    reaction_time = datetime.strptime(line['ReactionTime'], '%Y/%m/%d %H:%M') if line.get('ReactionTime') else False
-                    view_time = datetime.strptime(line['ViewTime'], '%Y/%m/%d %H:%M') if line.get('ViewTime') else False
+                    # session_start = datetime.strptime(line['SessionStart'], '%Y/%m/%d %H:%M:%S') if line.get('SessionStart') else False
+                    # session_end = datetime.strptime(line['SessionEnd'], '%Y/%m/%d %H:%M:%S') if line.get('SessionEnd') else False
+                    # reaction_time = datetime.strptime(line['ReactionTime'], '%H:%M:%S') if line.get('ReactionTime') else False
+                    # view_time = datetime.strptime(line['ViewTime'], '%H:%M:%S') if line.get('ViewTime') else False
 
                     game_data = {
                         'name': line.get('UserID', False),
@@ -76,23 +76,21 @@ class VirsatVrMails(models.Model):
                         'game_code': line.get('GameCode', False),
                         'level_code': line.get('LevelCode', False),
                         'session_id': line.get('SessionID', False),
-                        'session_start': session_start,
-                        'session_end': session_end,
+                        'session_start_str': line.get('SessionStart', False),
+                        'session_end_str': line.get('SessionEnd', False),
                         'domain': line.get('Domain', False),
                         'replay': line.get('Replay', False),
                         'violation': line.get('Violation', False),
-                        'reaction_time': reaction_time,
                         'selection': line.get('Selection', False),
                         'sub_selection': line.get('SubSelection', False),
                         'status': line['Status'].lower() if line.get('Status') else False,
                         'gaze_point': line.get('GazePoint', False),
                         'view_count': line.get('ViewCount', False),
-                        'view_time': view_time,
+                        'reaction_time_str': line.get('ReactionTime', False),
+                        'view_time_str': line.get('ViewTime', False),
                         'vr_mail_id': vr_mail.id,
                         'attachment_id': res.id,
                     }
-
-                    print(game_data)
 
                     new_game_result = game_result_obj.create(game_data)
 

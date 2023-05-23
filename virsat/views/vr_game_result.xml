@@ -15,7 +15,7 @@
                     <field name="violation"/>
                     <field name="session_start"/>
                     <field name="session_end"/>
-                    <field name="reaction_time"/>
+                    <field name="reaction_time_str"/>
                     <field name="selection"/>
                     <field name="status"/>
                     <field name="create_date" groups="base.group_no_one"/>
@@ -46,9 +46,11 @@
                                 <field name="selection"/>
                                 <field name="violation"/>
                                 <field name="session_start"/>
+                                <field name="session_start_str" groups="base.group_no_one"/>
                                 <field name="session_end"/>
-                                <field name="reaction_time"/>
-                                <field name="view_time"/>
+                                <field name="session_end_str" groups="base.group_no_one"/>
+                                <field name="reaction_time_str"/>
+                                <field name="view_time_str"/>
                                 <field name="status"/>
                                 <field name="vr_mail_id" groups="base.group_no_one" readonly="1"/>
                             </group>
