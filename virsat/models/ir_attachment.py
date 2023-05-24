@@ -83,6 +83,7 @@ class VirsatVrMails(models.Model):
                         'violation': line.get('Violation', False),
                         'selection': line.get('Selection', False),
                         'sub_selection': line.get('SubSelection', False),
+                        'score': line.get('Score', False),
                         'status': line['Status'].lower() if line.get('Status') else False,
                         'gaze_point': line.get('GazePoint', False),
                         'view_count': line.get('ViewCount', False),

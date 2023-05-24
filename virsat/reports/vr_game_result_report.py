@@ -17,7 +17,7 @@ class VrGameResultReport(models.Model):
     game_level_id = fields.Many2one('vr.game.levels', string="Level", readonly=True)
     session_start = fields.Datetime()
     session_end = fields.Datetime()
-    # score = fields.Integer()
+    score = fields.Integer()
     # passing_score = fields.Integer()
     status = fields.Selection([("passed", "Passed"), ('failed', 'Failed')], readonly=True)
 
@@ -42,6 +42,7 @@ class VrGameResultReport(models.Model):
                 level.id as game_level_id,
                 line.session_start,
                 line.session_end,
+                line.score,
                 line.status as status
         '''
 

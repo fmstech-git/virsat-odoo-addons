@@ -24,7 +24,7 @@ class VrTrainee(models.Model):
     language = fields.Selection([('arabic', 'ARABIC'), ('english', 'ENGLISH'), ('hindi', 'HINDI')])
     nationality = fields.Char()
     gender = fields.Selection([('male', 'Male'), ('female', 'Female')])
-    dob = fields.Date()
+    dob = fields.Date(string="DOB")
 
     _sql_constraints = [
         ('name_company_uniq', 'unique(name,company_id)', 'Trainee Name already exist in your company.'),

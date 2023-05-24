@@ -53,10 +53,12 @@
                     <field name="name" groups="virsat.group_view_vr_trainee_name"/>
                     <field name="unit"/>
                     <field name="designation"/>
+                    <field name="gender"/>
+                    <field name="dob"/>
                     <field name="driver_for"/>
-                    <field name="location"/>
-                    <field name="language"/>
-                    <field name="nationality"/>
+                    <field name="location" optional="show"/>
+                    <field name="language" optional="show"/>
+                    <field name="nationality" optional="show"/>
                     <field name="company_id" groups="base.group_multi_company"/>
                 </tree>
             </field>

@@ -33,6 +33,7 @@ class VrGameResult(models.Model):
     vr_mail_id = fields.Many2one('virsat.vr.mails')
     attachment_id = fields.Many2one('ir.attachment')
     company_code = fields.Char()
+    score = fields.Integer()
     status = fields.Selection([("passed", "Passed"), ('failed', 'Failed')])
 
     @api.depends('session_start_str')

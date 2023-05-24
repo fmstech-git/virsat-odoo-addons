@@ -17,6 +17,7 @@
                     <field name="session_end"/>
                     <field name="reaction_time_str"/>
                     <field name="selection"/>
+                    <field name="score"/>
                     <field name="status"/>
                     <field name="create_date" groups="base.group_no_one"/>
                 </tree>
@@ -51,6 +52,7 @@
                                 <field name="session_end_str" groups="base.group_no_one"/>
                                 <field name="reaction_time_str"/>
                                 <field name="view_time_str"/>
+                                <field name="score"/>
                                 <field name="status"/>
                                 <field name="vr_mail_id" groups="base.group_no_one" readonly="1"/>
                             </group>
@@ -116,8 +118,8 @@
                     <field name="game_id"/>
                     <field name="game_level_id"/>
                     <field name="session_start"/>
-                    <!--<field name="score"/>
-                    <field name="passing_score"/>-->
+                    <field name="session_end" optional="hide"/>
+                    <field name="score" optional="hide"/>
                     <field name="status"/>
                     <field name="company_id" groups="base.group_multi_company"/>
                 </tree>
@@ -143,7 +145,7 @@
         <record id="action_vr_game_result_report" model="ir.actions.act_window">
             <field name="name">Game Results</field>
             <field name="res_model">vr.game.result.report</field>
-            <field name="view_mode">kanban,tree</field>
+            <field name="view_mode">tree,kanban</field>
             <field name="domain">[]</field>
         </record>
 

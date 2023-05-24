@@ -50,7 +50,7 @@
         <field name="name">view.vr.game.levels.tree</field>
         <field name="model">vr.game.levels</field>
         <field name="arch" type="xml">
-            <tree string="Game Levels">
+            <tree string="Game Levels" editable="top">
                 <field name="name"/>
                 <field name="code"/>
                 <field name="game_id"/>
