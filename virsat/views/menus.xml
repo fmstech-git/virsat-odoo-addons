@@ -19,6 +19,7 @@
             <menuitem name="Reserved PIN" id="vr_reserved_pin_menu" sequence="10" action="action_vr_reserved_pin"/>
             <menuitem name="Games" id="vr_games_menu" sequence="20" action="action_vr_games"/>
             <menuitem id="vr_config_company_menu" name="Company" sequence="30" groups="virsat.group_vr_manager" action="base.action_res_company_form"/>
+            <menuitem id="vr_config_user_menu" name="User" sequence="40" groups="virsat.group_vr_manager" action="base.action_res_users"/>
         </menuitem>
 
         <menuitem id="vr_reports_root_menu" name="Reports" sequence="40" groups="virsat.group_vr_officer">
