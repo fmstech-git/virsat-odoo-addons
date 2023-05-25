@@ -1,4 +1,5 @@
 from odoo import fields, models, api
+from odoo.exceptions import ValidationError
 
 
 class ResCompanyInherit(models.Model):
@@ -6,16 +7,12 @@ class ResCompanyInherit(models.Model):
 
     theme_color = fields.Char()
     theme_color_lighter = fields.Char()
+    set_login_logo = fields.Boolean(defautl=False, string="Use Logo in Login Screen")
+    logo_login_height = fields.Integer(default=60)
 
-    # def write(self, vals):
-    #     res = super(ResCompanyInherit, self).write(vals)
-    #
-    #     if vals.get('theme_color'):
-    #         web_editor_obj = self.env['web_editor.assets']
-    #         content = """
-    #         $o-brand-odoo: %s;
-    #         $o-brand-primary: %s;
-    #         """ % (self.theme_color, self.theme_color)
-    #         web_editor_obj.save_asset('/theme_virsat/static/src/scss/colors.scss', 'web._assets_primary_variables', content, 'scss')
-    #
-    #     return res
+    def write(self, vals):
+        if vals.get('set_login_logo'):
+            if self.search([('set_login_logo', '=', True), ('id', '!=', self.id)]):
+                raise ValidationError("You can only set 1 default logo in login screen.")
+
+        return super(ResCompanyInherit, self).write(vals)

@@ -7,6 +7,8 @@
         <field name="inherit_id" ref="base.view_company_form"/>
         <field name="arch" type="xml">
             <field name="favicon" position="after">
+                <field name="set_login_logo"/>
+                <field name="logo_login_height"/>
                 <field name="theme_color" widget="color"/>
                 <field name="theme_color_lighter" widget="color"/>
             </field>

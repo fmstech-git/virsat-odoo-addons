@@ -5,7 +5,13 @@
             <div/>
         </xpath>
         <xpath expr="//div[hasclass('card-body')]//img" position="replace">
-            <img src="/virsat/static/description/virsat-logo.svg" alt="Logo" style="max-height:120px; max-width: 100%; width:auto"/>
+            <t t-set="company" t-value="request.env['res.company'].sudo().search([('set_login_logo', '=', True)], limit=1)"/>
+            <t t-if="company">
+                <img t-attf-src="data:image/png;base64,{{company.logo}}" alt="Logo" t-att-style="'max-height:{}px; max-width: 100%; width:auto;'.format(company.logo_login_height)"/>
+            </t>
+            <t t-else="">
+                <img src="/virsat/static/description/virsat-logo.svg" alt="Logo" style="max-height:120px; max-width: 100%; width:auto"/>
+            </t>
         </xpath>
         <xpath expr="//div[hasclass('card-body')]" position="attributes">
             <attribute name="class" add="p-4" separator=" "/>
@@ -17,9 +23,6 @@
 
     <template id="virsat_theme.theme_colors" name="VIRSAT Theme Colors" inherit_id="web.layout">
         <xpath expr="//body" position="inside">
-            <!--<t t-set="vr_companies" t-value="request.env.user.company_ids"/>
-            <t t-if="vr_companies and len(vr_companies) == 1">
-            </t>-->
             <t t-set="vr_color" t-value="request.env.company.theme_color"/>
             <t t-set="vr_color_light" t-value="request.env.company.theme_color_lighter or color"/>
             <style>

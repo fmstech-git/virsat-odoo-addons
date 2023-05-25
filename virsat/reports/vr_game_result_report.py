@@ -13,7 +13,7 @@ class VrGameResultReport(models.Model):
     trainee_id = fields.Many2one('vr.trainee', readonly=True, string="PIN")
     trainee_name = fields.Char(readonly=True, groups="virsat.group_view_vr_trainee_name")
     company_id = fields.Many2one('res.company', string='Company', readonly=True)
-    game_id = fields.Many2one('vr.games', string="Game", readonly=True)
+    game_id = fields.Many2one('vr.games', string="Training Module", readonly=True)
     game_level_id = fields.Many2one('vr.game.levels', string="Level", readonly=True)
     session_start = fields.Datetime()
     session_end = fields.Datetime()
