@@ -39,40 +39,48 @@ class VrGameResult(models.Model):
 
     @api.depends('session_start_str')
     def compute_session_start(self):
-        try:
-            self.session_start = datetime.strptime(self.session_start_str, '%Y/%m/%d %H:%M:%S')
-        except:
+        for result in self:
             try:
-                self.session_start = datetime.strptime(self.session_start_str, '%Y/%m/%d %H:%M')
+                result.session_start = datetime.strptime(result.session_start_str, '%Y/%m/%d %H:%M:%S')
             except:
-                self.session_start = False
+                try:
+                    result.session_start = datetime.strptime(result.session_start_str, '%Y/%m/%d %H:%M')
+                except:
+                    result.session_start = False
 
     @api.depends('session_end_str')
     def compute_session_end(self):
-        try:
-            self.session_end = datetime.strptime(self.session_end_str, '%Y/%m/%d %H:%M:%S')
-        except:
+        for result in self:
             try:
-                self.session_end = datetime.strptime(self.session_end_str, '%Y/%m/%d %H:%M')
+                result.session_end = datetime.strptime(result.session_end_str, '%Y/%m/%d %H:%M:%S')
             except:
-                self.session_end = False
+                try:
+                    result.session_end = datetime.strptime(result.session_end_str, '%Y/%m/%d %H:%M')
+                except:
+                    result.session_end = False
 
     @api.depends('name', 'company_id')
     def get_vr_trainee(self):
-        if self.company_id:
-            self.vr_trainee_id = self.env['vr.trainee'].search([('pin', '=', self.name), ('company_id', '=', self.company_id.id)]) or False
+        for result in self:
+            if result.company_id:
+                result.vr_trainee_id = self.env['vr.trainee'].search(
+                    [('pin', '=', result.name), ('company_id', '=', result.company_id.id)]) or False
 
     @api.depends('game_code', 'company_id')
     def get_vr_game(self):
-        if self.company_id:
-            self.vr_game_id = self.env['vr.games'].search(
-                [('code', '=', self.game_code), ('company_id', '=', self.company_id.id)]) or False
+        for result in self:
+            if result.company_id:
+                result.vr_game_id = self.env['vr.games'].search(
+                    [('code', '=', result.game_code), ('company_id', '=', result.company_id.id)]) or False
 
     @api.depends('level_code', 'company_id')
     def get_vr_game_level(self):
-        if self.game_code:
-            self.game_level_id = self.env['vr.game.levels'].search([('code', '=', self.level_code), ('game_id', '=', self.vr_game_id.id)]) or False
+        for result in self:
+            if result.game_code:
+                result.game_level_id = self.env['vr.game.levels'].search(
+                    [('code', '=', result.level_code), ('game_id', '=', result.vr_game_id.id)]) or False
 
     @api.depends('company_code')
     def get_company(self):
-        self.company_id = self.env['res.company'].search([('company_code', '=', self.company_code)]) or False
+        for result in self:
+            result.company_id = self.env['res.company'].search([('company_code', '=', result.company_code)]) or False
