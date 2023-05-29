@@ -14,7 +14,8 @@ class VrMails(models.Model):
 
     @api.depends('company_code')
     def get_company(self):
-        self.company_id = self.env['res.company'].search([('company_code', '=', self.company_code)]) or False
+        for r in self:
+            r.company_id = self.env['res.company'].search([('company_code', '=', r.company_code)]) or False
 
     def view_game_result(self):
         self.ensure_one()

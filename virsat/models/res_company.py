@@ -6,7 +6,7 @@ class ResCompanyInherit(models.Model):
 
     vr_trainee_pin_size = fields.Integer(default=3, string="VR Trainee PIN Length")
     vr_trainee_pin_max_size = fields.Integer(compute='get_vr_trainee_pin_max_size', store=True, string="PIN Max Size", help="Maximum PIN the system can generate.")
-    vr_trainee_limit = fields.Integer(help='Limit the number of trainee per company.', string="Max Trainees Allowed")
+    vr_trainee_limit = fields.Integer(help='Limit the number of trainee per company.', string="Max Trainees Allowed", default=10)
     company_code = fields.Char(required=True)
     theme_color = fields.Char()
 
