@@ -5,6 +5,7 @@ from datetime import datetime
 class VrGameResult(models.Model):
     _name = "vr.game.result"
     _description = "VR Game Result"
+    _order = 'id desc'
 
     name = fields.Char(string="PIN")
     company_id = fields.Many2one('res.company', compute='get_company', store=True)
@@ -58,23 +59,20 @@ class VrGameResult(models.Model):
 
     @api.depends('name', 'company_id')
     def get_vr_trainee(self):
-        # for r in self:
         if self.company_id:
             self.vr_trainee_id = self.env['vr.trainee'].search([('pin', '=', self.name), ('company_id', '=', self.company_id.id)]) or False
 
     @api.depends('game_code', 'company_id')
     def get_vr_game(self):
-        for r in self:
-            if r.company_id:
-                r.vr_game_id = self.env['vr.games'].search([('code', '=', r.game_code), ('company_id', '=', r.company_id.id)]) or False
+        if self.company_id:
+            self.vr_game_id = self.env['vr.games'].search(
+                [('code', '=', self.game_code), ('company_id', '=', self.company_id.id)]) or False
 
     @api.depends('level_code', 'company_id')
     def get_vr_game_level(self):
-        for r in self:
-            if r.game_code:
-                r.game_level_id = self.env['vr.game.levels'].search([('code', '=', r.level_code), ('game_id', '=', r.vr_game_id.id)]) or False
+        if self.game_code:
+            self.game_level_id = self.env['vr.game.levels'].search([('code', '=', self.level_code), ('game_id', '=', self.vr_game_id.id)]) or False
 
     @api.depends('company_code')
     def get_company(self):
-        for r in self:
-            r.company_id = self.env['res.company'].search([('company_code', '=', r.company_code)]) or False
+        self.company_id = self.env['res.company'].search([('company_code', '=', self.company_code)]) or False

@@ -61,12 +61,6 @@ class VirsatVrMails(models.Model):
 
             for line in results:
                 try:
-                    # convert dates
-                    # session_start = datetime.strptime(line['SessionStart'], '%Y/%m/%d %H:%M:%S') if line.get('SessionStart') else False
-                    # session_end = datetime.strptime(line['SessionEnd'], '%Y/%m/%d %H:%M:%S') if line.get('SessionEnd') else False
-                    # reaction_time = datetime.strptime(line['ReactionTime'], '%H:%M:%S') if line.get('ReactionTime') else False
-                    # view_time = datetime.strptime(line['ViewTime'], '%H:%M:%S') if line.get('ViewTime') else False
-
                     game_data = {
                         'name': line.get('UserID', False),
                         'company_code': line.get('CompanyCode', False),
@@ -94,6 +88,7 @@ class VirsatVrMails(models.Model):
                     }
 
                     new_game_result = game_result_obj.create(game_data)
+                    vr_mail.update({'company_code': line.get('CompanyCode', False)})
 
                     # create a new record in game result even if no matching pin
                     if new_game_result:
