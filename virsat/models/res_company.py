@@ -4,8 +4,9 @@ from odoo import fields, models, api
 class ResCompanyInherit(models.Model):
     _inherit = 'res.company'
 
-    vr_trainee_pin_size = fields.Integer(default=3, string="VR Trainee PIN Size")
-    vr_trainee_pin_max_size = fields.Integer(compute='get_vr_trainee_pin_max_size', store=True, string="VR Trainee PIN Max Size")
+    vr_trainee_pin_size = fields.Integer(default=3, string="VR Trainee PIN Length")
+    vr_trainee_pin_max_size = fields.Integer(compute='get_vr_trainee_pin_max_size', store=True, string="PIN Max Size", help="Maximum PIN the system can generate.")
+    vr_trainee_limit = fields.Integer(help='Limit the number of trainee per company.', string="Max Trainees Allowed")
     company_code = fields.Char(required=True)
     theme_color = fields.Char()
 

@@ -12,6 +12,7 @@
                         <group string="Setup">
                             <field name="vr_trainee_pin_size"/>
                             <field name="vr_trainee_pin_max_size"/>
+                            <field name="vr_trainee_limit"/>
                             <field name="company_code"/>
                         </group>
                     </group>

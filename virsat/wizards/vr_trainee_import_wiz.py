@@ -12,7 +12,7 @@ class VrTraineeImportWizard(models.TransientModel):
     _rec_name = 'file'
 
     file = fields.Binary(required=True)
-    company_id = fields.Many2one('res.company', default=lambda self: self.env.company)
+    company_id = fields.Many2one('res.company', default=lambda self: self.env.company, required=True)
 
     def import_trainee(self):
         """
@@ -66,7 +66,7 @@ class VrTraineeImportWizard(models.TransientModel):
                 new_trainees.append(new.id)
 
             except Exception as e:
-                raise ValidationError("Something went wrong, %s" % e)
+                raise ValidationError("Something went wrong. %s" % e)
 
         # show all newly created trainees
         return {

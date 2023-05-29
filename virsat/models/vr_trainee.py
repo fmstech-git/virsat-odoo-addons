@@ -14,7 +14,7 @@ class VrTrainee(models.Model):
     pin = fields.Char(default="New", index=True, copy=False, string="PIN", required=True)
     active = fields.Boolean(default=True)
     name = fields.Char(string="Name", index=True, groups="virsat.group_view_vr_trainee_name", copy=False, required=True)
-    company_id = fields.Many2one('res.company', default=lambda self: self.env.company)
+    company_id = fields.Many2one('res.company', default=lambda self: self.env.company, required=True)
     vr_game_result_ids = fields.One2many('vr.game.result', 'vr_trainee_id')
     game_sessions_count = fields.Integer(compute="compute_game_sessions_count")
     unit = fields.Char()
@@ -40,24 +40,33 @@ class VrTrainee(models.Model):
 
     @api.model
     def create(self, vals):
-        """Inherit to get a unique pin number"""
+        """
+        Inherit to get a unique pin number. Do not allow if maximum pin size exceeded or if trainee limit exceeded
+        """
 
-        seq_max_size = self.env.company.vr_trainee_pin_max_size
-        company_pin_records = len(self.search([('company_id', '=', self.env.company.id)]))
+        # Do not allow if max pin size exceeded
+        company = self.env['res.company'].browse(vals.get('company_id'))
+        seq_max_size = company.vr_trainee_pin_max_size
+        company_pin_records = len(self.search([('company_id', '=', company.id)]))
         reserved_pin_obj = self.env['vr.reserved.pin']
-        reserved_pins = reserved_pin_obj.search([('company_id', '=', self.env.company.id)]) or []
+        reserved_pins = reserved_pin_obj.search([('company_id', '=', company.id)]) or []
         total_seq_max_size = seq_max_size - len(reserved_pins)
 
         if company_pin_records >= total_seq_max_size:
-            raise ValidationError("Sorry! Maximum PIN size exceeded. Please contact administrator.")
+            raise ValidationError("Maximum PIN size exceeded. Please contact administrator.")
 
-        seq_size = self.env.company.vr_trainee_pin_size
+        # do not allow if trainee limit count exceeded
+        trainee_limit = company.vr_trainee_limit
+        if company_pin_records >= trainee_limit:
+            raise ValidationError("Maximum trainee limit count exceeded. Please contact administrator.")
+
+        seq_size = company.vr_trainee_pin_size
         pin = self.generate_pin(seq_size)
-        exist = self.search([('pin', '=', pin), ('company_id', '=', self.env.company.id)]) or (reserved_pins and reserved_pins.filtered(lambda x: x.pin == pin))
+        exist = self.search([('pin', '=', pin), ('company_id', '=', company.id)]) or (reserved_pins and reserved_pins.filtered(lambda x: x.pin == pin))
 
         while exist:
             pin = self.generate_pin(seq_size)
-            exist = self.search([('pin', '=', pin), ('company_id', '=', self.env.company.id)]) or (reserved_pins and reserved_pins.filtered(lambda x: x.pin == pin))
+            exist = self.search([('pin', '=', pin), ('company_id', '=', company.id)]) or (reserved_pins and reserved_pins.filtered(lambda x: x.pin == pin))
 
         vals['pin'] = pin
 
