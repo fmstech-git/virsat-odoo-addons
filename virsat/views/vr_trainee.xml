@@ -7,7 +7,7 @@
             <field name="arch" type="xml">
                 <form string="Trainee">
                     <header>
-                        <button name="action_view_game_result" type="object" string="View Game Result" class="oe_highlight" attrs="{'invisible':[('game_sessions_count', '=', 0)]}"/>
+                        <button name="action_view_game_result" type="object" string="View Sessions" class="oe_highlight" attrs="{'invisible':[('game_sessions_count', '=', 0)]}"/>
                     </header>
                     <sheet>
                         <div class="oe_button_box" name="button_box">

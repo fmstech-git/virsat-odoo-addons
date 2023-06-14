@@ -81,15 +81,15 @@ class VrTrainee(models.Model):
         return pin
 
     def compute_game_sessions_count(self):
-        self.game_sessions_count = len(self.env['vr.game.result'].search([('vr_trainee_id', '=', self.id)]))
+        self.game_sessions_count = len(self.env['vr.game.sessions'].search([('vr_trainee_id', '=', self.id)]))
 
     def action_view_game_result(self):
         return {
-            'name': 'Game Result',
+            'name': 'Game Sessions',
             'type': 'ir.actions.act_window',
-            'res_model': 'vr.game.result.report',
-            'view_mode': 'kanban,tree',
-            'domain': [('trainee_id', '=', self.id)],
+            'res_model': 'vr.game.sessions',
+            'view_mode': 'tree',
+            'domain': [('vr_trainee_id', '=', self.id), ('company_id', '=', self.company_id.id)],
         }
 
 

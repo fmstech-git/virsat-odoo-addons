@@ -13,13 +13,17 @@ class VrGameResultReport(models.Model):
     trainee_id = fields.Many2one('vr.trainee', readonly=True, string="PIN")
     trainee_name = fields.Char(readonly=True, groups="virsat.group_view_vr_trainee_name")
     company_id = fields.Many2one('res.company', string='Company', readonly=True)
+    game_session_id = fields.Many2one('vr.game.sessions', readonly=True)
     game_id = fields.Many2one('vr.games', string="Training Module", readonly=True)
     game_level_id = fields.Many2one('vr.game.levels', string="Level", readonly=True)
     session_start = fields.Datetime()
     session_end = fields.Datetime()
     score = fields.Integer()
+    violation = fields.Char()
+    selection = fields.Char()
     # passing_score = fields.Integer()
-    status = fields.Selection([("passed", "Passed"), ('failed', 'Failed')], readonly=True)
+    # status = fields.Selection([("passed", "Passed"), ('failed', 'Failed')], readonly=True)
+    remark = fields.Char(string="Status")
 
     _depends = {
         'vr.game.result': ['name'],
@@ -38,12 +42,15 @@ class VrGameResultReport(models.Model):
                 trainee.name as trainee_name,
                 line.vr_trainee_id as trainee_id,
                 line.company_id,
+                line.game_session_id,
                 line.vr_game_id as game_id,
                 level.id as game_level_id,
                 line.session_start,
                 line.session_end,
                 line.score,
-                line.status as status
+                line.violation,
+                line.selection,
+                line.remark
         '''
 
     @api.model

@@ -7,7 +7,7 @@ class ResCompanyInherit(models.Model):
 
     theme_color = fields.Char()
     theme_color_lighter = fields.Char()
-    set_login_logo = fields.Boolean(defautl=False, string="Use Logo in Login Screen")
+    set_login_logo = fields.Boolean(default=False, string="Use Logo in Login Screen")
     logo_login_height = fields.Integer(default=60)
 
     def write(self, vals):
