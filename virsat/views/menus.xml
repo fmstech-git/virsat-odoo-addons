@@ -4,10 +4,15 @@
     <menuitem name="VIRSAT" id="virsat_menu_root" web_icon="virsat,static/description/icon.png" sequence="1">
         <menuitem name="Dashboard" id="vr_dashboard_menu" sequence="1" action="client_action_dashboard" groups="virsat.group_vr_officer"/>
 
-        <menuitem name="VR Mails" id="virsat_vr_mails_menu_root" sequence="10">
-            <menuitem name="VR Mails" id="virsat_vr_mails_menu" sequence="10" action="action_virsat_vr_mails"/>
-            <menuitem name="Game Results" id="vr_game_result_menu" sequence="20" action="action_vr_game_result" groups="virsat.group_vr_manager"/>
-            <menuitem name="Fetch VR Mails" id="vr_mails_fetch_wiz_menu" sequence="50" action="action_vr_mails_fetch_wiz"/>
+        <menuitem name="Mails" id="virsat_vr_mails_menu_root" sequence="10" groups="virsat.group_vr_manager">
+            <menuitem name="VR Mails" id="virsat_vr_mails_menu" sequence="10" action="action_virsat_vr_mails" groups="virsat.group_vr_manager"/>
+            <menuitem name="Fetch VR Mails" id="vr_mails_fetch_wiz_menu" sequence="20" action="action_vr_mails_fetch_wiz" groups="virsat.group_vr_manager"/>
+        </menuitem>
+
+        <menuitem name="Games" id="vr_games_root_menu" sequence="15" groups="virsat.group_vr_manager">
+            <menuitem name="Games" id="vr_games_menu" sequence="10" action="action_vr_games" groups="virsat.group_vr_manager"/>
+            <menuitem name="Game Sessions" id="vr_game_sessions_menu" sequence="30" action="action_vr_game_sessions_admin" groups="virsat.group_vr_manager"/>
+            <menuitem name="Game Results" id="vr_game_result_menu" sequence="40" action="action_vr_game_result" groups="base.group_no_one"/>
         </menuitem>
 
         <menuitem name="Trainee" id="vr_trainee_root_menu" sequence="20">
@@ -17,7 +22,6 @@
 
         <menuitem name="Configurations" id="vr_config_menu" sequence="100" groups="virsat.group_vr_manager">
             <menuitem name="Reserved PIN" id="vr_reserved_pin_menu" sequence="10" action="action_vr_reserved_pin"/>
-            <menuitem name="Games" id="vr_games_menu" sequence="20" action="action_vr_games"/>
             <menuitem id="vr_config_company_menu" name="Company" sequence="30" groups="virsat.group_vr_manager" action="base.action_res_company_form"/>
             <menuitem id="vr_config_user_menu" name="User" sequence="40" groups="virsat.group_vr_manager" action="base.action_res_users"/>
         </menuitem>

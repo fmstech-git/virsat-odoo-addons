@@ -10,10 +10,12 @@ access_vr_reserved_pin_user,access.vr.reserved.pin.user,model_vr_reserved_pin,vi
 access_vr_trainee_import_wiz,access.vr.trainee.import.wiz,model_vr_trainee_import_wiz,virsat.group_vr_trainee_manager,1,1,1,1
 access_vr_games_user,access.vr.games.user,model_vr_games,virsat.group_vr_user,1,0,0,0
 access_vr_games_mngr,access.vr.games.mngr,model_vr_games,virsat.group_vr_manager,1,1,1,1
+access_vr_game_levels_user,access.vr.game.levels.user,model_vr_game_levels,virsat.group_vr_user,1,0,0,0
 access_vr_game_levels_mngr,access.vr.game.levels.mngr,model_vr_game_levels,virsat.group_vr_manager,1,1,1,1
 access_vr_games_user,access.vr.games.user,model_vr_games,virsat.group_vr_officer,1,0,0,0
 access_vr_mails_fetch_wiz,access.vr.mails.fetch.wiz,model_vr_mails_fetch_wiz,virsat.group_vr_manager,1,1,1,1
-access_vr_game_result_report,access.vr.game.result.report,model_vr_game_result_report,virsat.group_vr_officer,1,1,1,1
 base_install_request.access_ir_module_module_group_user,ir_module_module group_user,base.model_ir_module_module,base.group_user,0,0,0,0
 access_res_company_vr_mngr,access.res.company.vr.mngr,model_res_company,virsat.group_vr_manager,1,1,1,0
 access_res_users_vr_mngr,access.res.users.vr.mngr,base.model_res_users,virsat.group_vr_manager,1,1,1,1
+access_vr_game_sessions_user,access.vr.game.sessions.user,model_vr_game_sessions,virsat.group_vr_user,1,0,0,0
+access_vr_game_sessions_manager,access.vr.game.sessions.manager,model_vr_game_sessions,base.group_system,1,1,1,1

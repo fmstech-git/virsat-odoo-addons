@@ -19,14 +19,15 @@ class Virsat(http.Controller):
         games = request.env['vr.games'].with_context(allowed_company_ids=allowed_company_ids).search([])
         trainees = request.env['vr.trainee'].with_context(allowed_company_ids=allowed_company_ids).search([])
         game_result = request.env['vr.game.result'].with_context(allowed_company_ids=allowed_company_ids).search([])
-        game_result_stats = {'Passed': 0, 'Failed': 0}
-        for g in game_result:
-            game_result_stats['Passed'] += 1 if g.status == 'passed' else 0
-            game_result_stats['Failed'] += 1 if g.status == 'failed' else 0
+        game_sessions = request.env['vr.game.sessions'].with_context(allowed_company_ids=allowed_company_ids).search([])
+        game_sessions_stats = {'Passed': 0, 'Failed': 0}
+        for g in game_sessions:
+            game_sessions_stats['Passed'] += 1 if g.status == 'passed' else 0
+            game_sessions_stats['Failed'] += 1 if g.status == 'failed' else 0
 
         return {
             "games": len(games),
             "trainees": len(trainees),
-            "sessions": len(game_result),
-            "sessions_stats": game_result_stats,
+            "sessions": len(game_sessions),
+            "sessions_stats": game_sessions_stats,
         }

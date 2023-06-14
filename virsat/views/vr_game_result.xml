@@ -18,7 +18,7 @@
                     <field name="reaction_time_str"/>
                     <field name="selection"/>
                     <field name="score"/>
-                    <field name="status"/>
+                    <field name="remark"/>
                     <field name="create_date" groups="base.group_no_one"/>
                 </tree>
             </field>
@@ -53,8 +53,9 @@
                                 <field name="reaction_time_str"/>
                                 <field name="view_time_str"/>
                                 <field name="score"/>
-                                <field name="status"/>
+                                <field name="remark"/>
                                 <field name="vr_mail_id" groups="base.group_no_one" readonly="1"/>
+                                <field name="game_session_id" groups="base.group_no_one" readonly="1"/>
                             </group>
                         </group>
                     </sheet>
@@ -76,7 +77,7 @@
                 <kanban class="o_kanban_mobile" create="false" group_create="false">
                     <templates>
                         <field name="game_id"/>
-                        <field name="status"/>
+                        <field name="remark"/>
                         <t t-name="kanban-box">
                             <div class="oe_kanban_content flex-grow-1">
                                 <div class="o_kanban_record_title oe_kanban_details">
@@ -88,10 +89,11 @@
                                  <div class="row mt-2">
                                     <div>PIN: <field name="trainee_id"/></div>
                                     <div>Name: <field name="trainee_name" groups="virsat.group_view_vr_trainee_name"/></div>
-                                    <div>Session Start: <field name="session_start"/></div>
-                                    <div>Session End: <field name="session_end"/></div>
+                                    <div>Violation: <field name="violation"/></div>
+                                    <div>Selection: <field name="selection"/></div>
+                                    <div>Score: <field name="score"/></div>
                                     <div class="mt-2">
-                                        <t t-if="record.status.raw_value == 'passed'">
+                                        <t t-if="record.remark.raw_value == 'Passed' or record.remark.raw_value == 'Correct'">
                                             <div class="h1"><i class="fa fa-check-circle text-success"/> Passed</div>
                                         </t>
                                         <t t-else="">
@@ -119,8 +121,10 @@
                     <field name="game_level_id"/>
                     <field name="session_start"/>
                     <field name="session_end" optional="hide"/>
+                    <field name="violation"/>
+                    <field name="selection"/>
                     <field name="score" optional="hide"/>
-                    <field name="status"/>
+                    <field name="remark"/>
                     <field name="company_id" groups="base.group_multi_company"/>
                 </tree>
             </field>

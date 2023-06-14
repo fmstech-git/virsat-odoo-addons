@@ -59,8 +59,25 @@ class VirsatVrMails(models.Model):
             if res.mimetype == 'application/json':
                 results.append(json.loads(result_raw))
 
+            # game session needed variables
+            game_session_obj = self.env['vr.game.sessions']
+            ctr = 0
+            new_session = False
+
             for line in results:
+                print(line)
                 try:
+                    # add new session but make sure only single entry will be created
+                    ctr += 1
+                    if ctr == 1:
+                        new_session = game_session_obj.create({
+                            'name': line.get('UserID', False),
+                            'company_code': line.get('CompanyCode', False),
+                            'session_start_str': line.get('SessionStart', False),
+                            'session_end_str': line.get('SessionEnd', False),
+                            'vr_mail_id': vr_mail.id,
+                        })
+
                     game_data = {
                         'name': line.get('UserID', False),
                         'company_code': line.get('CompanyCode', False),
@@ -70,6 +87,7 @@ class VirsatVrMails(models.Model):
                         'game_code': line.get('GameCode', False),
                         'level_code': line.get('LevelCode', False),
                         'session_id': line.get('SessionID', False),
+                        'game_session_id': new_session and new_session.id or False,
                         'session_start_str': line.get('SessionStart', False),
                         'session_end_str': line.get('SessionEnd', False),
                         'domain': line.get('Domain', False),
@@ -78,7 +96,8 @@ class VirsatVrMails(models.Model):
                         'selection': line.get('Selection', False),
                         'sub_selection': line.get('SubSelection', False),
                         'score': line.get('Score', False),
-                        'status': line['Status'].lower() if line.get('Status') else False,
+                        # 'status': line['Status'].lower() if line.get('Status') else False,
+                        'remark': line.get('Status', False),
                         'gaze_point': line.get('GazePoint', False),
                         'view_count': line.get('ViewCount', False),
                         'reaction_time_str': line.get('ReactionTime', False),
@@ -92,7 +111,7 @@ class VirsatVrMails(models.Model):
 
                     # create a new record in game result even if no matching pin
                     if new_game_result:
-                        vr_mail.message_post(body="Game result created successfully.")
+                        vr_mail.message_post(body="Game result created successfully (ID: %s)." % new_game_result.id)
                         _logger.info("New game result added %s", new_game_result.name)
 
                         # immediately save even if next have issues
