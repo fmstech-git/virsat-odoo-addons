@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from odoo import fields, models, api
+from datetime import datetime
 
 
 class VrGame(models.Model):
@@ -55,10 +56,34 @@ class VrGameSessions(models.Model):
     company_code = fields.Char()
     vr_trainee_id = fields.Many2one('vr.trainee', compute='get_vr_trainee', string="Trainee", store=True)
     session_start_str = fields.Char(string="Session Start")
+    session_start = fields.Datetime(compute="compute_session_start", store=True)
     session_end_str = fields.Char(string="Session End")
+    session_end = fields.Datetime(compute="compute_session_end", store=True)
     game_result_ids = fields.One2many('vr.game.result', 'game_session_id')
     vr_mail_id = fields.Many2one('virsat.vr.mails')
     status = fields.Selection([("passed", "Passed"), ('failed', 'Failed')], compute="compute_status", store=True)
+
+    @api.depends('session_start_str')
+    def compute_session_start(self):
+        for result in self:
+            try:
+                result.session_start = datetime.strptime(result.session_start_str, '%Y/%m/%d %H:%M:%S')
+            except:
+                try:
+                    result.session_start = datetime.strptime(result.session_start_str, '%Y/%m/%d %H:%M')
+                except:
+                    result.session_start = False
+
+    @api.depends('session_end_str')
+    def compute_session_end(self):
+        for result in self:
+            try:
+                result.session_end = datetime.strptime(result.session_end_str, '%Y/%m/%d %H:%M:%S')
+            except:
+                try:
+                    result.session_end = datetime.strptime(result.session_end_str, '%Y/%m/%d %H:%M')
+                except:
+                    result.session_end = False
 
     @api.depends('game_result_ids.remark')
     def compute_status(self):

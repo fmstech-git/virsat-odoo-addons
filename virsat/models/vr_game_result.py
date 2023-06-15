@@ -30,14 +30,23 @@ class VrGameResult(models.Model):
     selection = fields.Char()
     sub_selection = fields.Char()
     gaze_point = fields.Char()
-    view_count = fields.Integer()
+    view_count = fields.Char()
     reaction_time_str = fields.Char(string="Reaction Time")
     view_time_str = fields.Char(string="View Time")
     vr_mail_id = fields.Many2one('virsat.vr.mails', string="VR Mail")
     attachment_id = fields.Many2one('ir.attachment')
-    score = fields.Integer()
+    score = fields.Integer(compute="compute_score", store=True)
+    score_str = fields.Char()
     # status = fields.Selection([("passed", "Passed"), ('failed', 'Failed')])
     remark = fields.Char(string='Status')
+
+    @api.depends('score_str')
+    def compute_score(self):
+        for result in self:
+            if result.score_str.isnumeric():
+                result.score = int(result.score_str)
+            else:
+                result.score = 0
 
     @api.depends('session_start_str')
     def compute_session_start(self):

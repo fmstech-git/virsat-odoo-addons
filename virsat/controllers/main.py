@@ -16,10 +16,9 @@ class Virsat(http.Controller):
     def get_statistics(self):
         allowed_company_ids = self.get_selected_companies()
 
-        games = request.env['vr.games'].with_context(allowed_company_ids=allowed_company_ids).search([])
-        trainees = request.env['vr.trainee'].with_context(allowed_company_ids=allowed_company_ids).search([])
-        game_result = request.env['vr.game.result'].with_context(allowed_company_ids=allowed_company_ids).search([])
-        game_sessions = request.env['vr.game.sessions'].with_context(allowed_company_ids=allowed_company_ids).search([])
+        games = request.env['vr.games'].search([('company_id', 'in', allowed_company_ids)])
+        trainees = request.env['vr.trainee'].search([('company_id', 'in', allowed_company_ids)])
+        game_sessions = request.env['vr.game.sessions'].search([('company_id', 'in', allowed_company_ids)])
         game_sessions_stats = {'Passed': 0, 'Failed': 0}
         for g in game_sessions:
             game_sessions_stats['Passed'] += 1 if g.status == 'passed' else 0

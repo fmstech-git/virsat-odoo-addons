@@ -53,6 +53,7 @@
                                 <field name="reaction_time_str"/>
                                 <field name="view_time_str"/>
                                 <field name="score"/>
+                                <field name="score_str" groups="base.group_no_one"/>
                                 <field name="remark"/>
                                 <field name="vr_mail_id" groups="base.group_no_one" readonly="1"/>
                                 <field name="game_session_id" groups="base.group_no_one" readonly="1"/>
@@ -89,9 +90,10 @@
                                  <div class="row mt-2">
                                     <div>PIN: <field name="trainee_id"/></div>
                                     <div>Name: <field name="trainee_name" groups="virsat.group_view_vr_trainee_name"/></div>
+                                    <div>Session Start: <field name="session_start"/></div>
+                                    <div>Session End: <field name="session_end"/></div>
                                     <div>Violation: <field name="violation"/></div>
                                     <div>Selection: <field name="selection"/></div>
-                                    <div>Score: <field name="score"/></div>
                                     <div class="mt-2">
                                         <t t-if="record.remark.raw_value == 'Passed' or record.remark.raw_value == 'Correct'">
                                             <div class="h1"><i class="fa fa-check-circle text-success"/> Passed</div>
@@ -114,7 +116,7 @@
             <field name="model">vr.game.result.report</field>
             <field name="arch" type="xml">
                 <tree create="0">
-                    <field name="id" groups="base.group_no_one"/>
+                    <field name="id" groups="base.group_system"/>
                     <field name="trainee_name"/>
                     <field name="trainee_id"/>
                     <field name="game_id"/>
