@@ -15,7 +15,6 @@ class Virsat(http.Controller):
     @http.route('/virsat/statistics', type='json', auth='user')
     def get_statistics(self):
         allowed_company_ids = self.get_selected_companies()
-        print(allowed_company_ids)
 
         games = request.env['vr.games'].search([('company_id', 'in', allowed_company_ids)])
         trainees = request.env['vr.trainee'].search([('company_id', 'in', allowed_company_ids)])
