@@ -65,7 +65,6 @@ class VirsatVrMails(models.Model):
             new_session = False
 
             for line in results:
-                print(line)
                 try:
                     # add new session but make sure only single entry will be created
                     ctr += 1
@@ -95,7 +94,7 @@ class VirsatVrMails(models.Model):
                         'violation': line.get('Violation', False),
                         'selection': line.get('Selection', False),
                         'sub_selection': line.get('SubSelection', False),
-                        'score': line.get('Score', False),
+                        'score_str': line.get('Score', False),
                         # 'status': line['Status'].lower() if line.get('Status') else False,
                         'remark': line.get('Status', False),
                         'gaze_point': line.get('GazePoint', False),

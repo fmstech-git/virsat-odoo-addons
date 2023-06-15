@@ -71,7 +71,6 @@
                     </div>
                     <group>
                         <field name="code"/>
-                        <!--<field name="passing_score"/>-->
                         <field name="game_id"/>
                     </group>
                 </sheet>
@@ -92,8 +91,8 @@
         <field name="arch" type="xml">
             <tree string="Game Sessions" create="false">
                 <field name="name"/>
-                <field name="session_start_str"/>
-                <field name="session_end_str"/>
+                <field name="session_start"/>
+                <field name="session_end"/>
                 <field name="status"/>
                 <field name="company_code" groups="base.group_no_one"/>
                 <field name="company_id" groups="base.group_multi_company"/>
@@ -119,8 +118,10 @@
                     <group>
                         <group>
                             <field name="name" groups="base.group_no_one"/>
-                            <field name="session_start_str"/>
-                            <field name="session_end_str"/>
+                            <field name="session_start"/>
+                            <field name="session_start_str" groups="base.group_no_one"/>
+                            <field name="session_end"/>
+                            <field name="session_end_str" groups="base.group_no_one"/>
                         </group>
                         <group>
                             <field name="company_code" groups="base.group_no_one"/>
