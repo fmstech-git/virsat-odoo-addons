@@ -27,7 +27,8 @@
         </menuitem>
 
         <menuitem id="vr_reports_root_menu" name="Reports" sequence="40" groups="virsat.group_vr_officer">
-            <menuitem name="Game Results" id="vr_game_result_report_menu" sequence="10" action="action_vr_game_result_report"/>
+            <menuitem name="Training Sessions" id="vr_game_sessions_report_menu" sequence="10" action="action_vr_game_sessions"/>
+            <menuitem name="Training Results" id="vr_game_result_report_menu" sequence="20" action="action_vr_game_result_report"/>
         </menuitem>
 
     </menuitem>
