@@ -165,6 +165,13 @@
         <field name="view_mode">tree</field>
     </record>
 
+    <record id="action_vr_game_sessions_per_company" model="ir.actions.act_window">
+        <field name="name">VR Game Sessions</field>
+        <field name="res_model">vr.game.sessions</field>
+        <field name="view_mode">tree</field>
+        <field name="domain">[('company_id', '!=', False)]</field>
+    </record>
+
     <record id="action_vr_game_sessions_admin" model="ir.actions.act_window">
         <field name="name">VR Game Sessions</field>
         <field name="res_model">vr.game.sessions</field>
