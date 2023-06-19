@@ -18,11 +18,21 @@
                         </h1>
                     </div>
                     <group>
-                        <field name="code"/>
-                        <field name="description"/>
-                        <field name="company_id" groups="base.group_multi_company"/>
+                        <group>
+                            <field name="code"/>
+                            <field name="description"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                        <group string="Status Computation">
+                            <field name="compute_status"/>
+                            <field name="compute_status_qty"/>
+                        </group>
                     </group>
                 </sheet>
+                <div class="oe_chatter" groups="base.group_no_one">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
             </form>
         </field>
     </record>
@@ -93,6 +103,7 @@
                 <field name="name"/>
                 <field name="session_start"/>
                 <field name="session_end"/>
+                <field name="game_id"/>
                 <field name="status"/>
                 <field name="company_code" groups="base.group_no_one"/>
                 <field name="company_id" groups="base.group_multi_company"/>
@@ -122,6 +133,7 @@
                             <field name="session_start_str" groups="base.group_no_one"/>
                             <field name="session_end"/>
                             <field name="session_end_str" groups="base.group_no_one"/>
+                            <field name="game_id"/>
                         </group>
                         <group>
                             <field name="company_code" groups="base.group_no_one"/>
@@ -129,8 +141,20 @@
                             <field name="vr_mail_id" groups="base.group_no_one" readonly="1"/>
                         </group>
                     </group>
-                    <field name="game_result_ids" readonly="1"/>
+                    <field name="game_result_ids">
+                        <tree>
+                            <field name="game_level_id" optional="hide"/>
+                            <field name="violation"/>
+                            <field name="selection"/>
+                            <field name="score" optional="hide"/>
+                            <field name="remark"/>
+                        </tree>
+                    </field>
                 </sheet>
+                <div class="oe_chatter" groups="base.group_no_one">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
             </form>
         </field>
     </record>

@@ -61,30 +61,51 @@ class VirsatVrMails(models.Model):
 
             # game session needed variables
             game_session_obj = self.env['vr.game.sessions']
+            game_obj = self.env['vr.games']
+            level_obj = self.env['vr.game.levels']
             ctr = 0
+            company_code = ''
             new_session = False
+            game = False
+            game_code = False
 
             for line in results:
                 try:
                     # add new session but make sure only single entry will be created
                     ctr += 1
                     if ctr == 1:
+                        game_code = line.get('GameCode', False)
+                        game = game_obj.search([('code', '=', game_code)])
+                        if game_code:
+                            company_code = game.company_id.company_code if game else False
+
                         new_session = game_session_obj.create({
                             'name': line.get('UserID', False),
-                            'company_code': line.get('CompanyCode', False),
+                            'company_code': company_code,
                             'session_start_str': line.get('SessionStart', False),
                             'session_end_str': line.get('SessionEnd', False),
+                            'game_id': game.id if game else False,
                             'vr_mail_id': vr_mail.id,
                         })
 
+                    # insert new level if it doesn't exist
+                    level_code = line.get('LevelCode', False)
+                    if game and level_code:
+                        if level_code in ('N/A', 'False'):
+                            level_code = line.get('Violation', False)
+
+                        level = level_obj.search([('game_id', '=', game.id), ('code', '=', level_code)])
+                        if not level and level_code not in ('N/A', 'False'):
+                            level_obj.create({'name': level_code, 'code': level_code, 'game_id': game.id})
+
                     game_data = {
                         'name': line.get('UserID', False),
-                        'company_code': line.get('CompanyCode', False),
+                        'company_code': company_code,
                         'device_id': line.get('DeviceID', False),
                         'app_version': line.get('AppVersion', False),
                         'experience': line.get('Experience', False),
-                        'game_code': line.get('GameCode', False),
-                        'level_code': line.get('LevelCode', False),
+                        'game_code': game_code,
+                        'level_code': level_code,
                         'session_id': line.get('SessionID', False),
                         'game_session_id': new_session and new_session.id or False,
                         'session_start_str': line.get('SessionStart', False),
@@ -106,12 +127,12 @@ class VirsatVrMails(models.Model):
                     }
 
                     new_game_result = game_result_obj.create(game_data)
-                    vr_mail.update({'company_code': line.get('CompanyCode', False)})
+                    vr_mail.update({'company_code': company_code})
 
                     # create a new record in game result even if no matching pin
                     if new_game_result:
-                        vr_mail.message_post(body="Game result created successfully (ID: %s)." % new_game_result.id)
-                        _logger.info("New game result added %s", new_game_result.name)
+                        vr_mail.message_post(body="Game result created successfully (%s)." % new_game_result.id)
+                        _logger.info("======= Game result created successfully (%s) =======", new_game_result.name)
 
                         # immediately save even if next have issues
                         self.env.cr.commit()

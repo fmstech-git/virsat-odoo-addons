@@ -19,7 +19,7 @@ class VrGameResultReport(models.Model):
     session_start = fields.Datetime()
     session_end = fields.Datetime()
     score = fields.Integer()
-    violation = fields.Char()
+    violation = fields.Char(string="Challenge")
     selection = fields.Char()
     # passing_score = fields.Integer()
     # status = fields.Selection([("passed", "Passed"), ('failed', 'Failed')], readonly=True)

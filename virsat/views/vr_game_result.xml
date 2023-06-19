@@ -12,10 +12,10 @@
                     <field name="device_id"/>
                     <field name="vr_game_id"/>
                     <field name="game_level_id"/>
-                    <field name="violation"/>
                     <field name="session_start"/>
                     <field name="session_end"/>
                     <field name="reaction_time_str"/>
+                    <field name="violation"/>
                     <field name="selection"/>
                     <field name="score"/>
                     <field name="remark"/>
@@ -44,8 +44,8 @@
                                 <field name="experience"/>
                             </group>
                             <group>
-                                <field name="selection"/>
                                 <field name="violation"/>
+                                <field name="selection"/>
                                 <field name="session_start"/>
                                 <field name="session_start_str" groups="base.group_no_one"/>
                                 <field name="session_end"/>
@@ -60,6 +60,10 @@
                             </group>
                         </group>
                     </sheet>
+                    <div class="oe_chatter" groups="base.group_no_one">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
                 </form>
             </field>
         </record>
@@ -92,8 +96,9 @@
                                     <div>Name: <field name="trainee_name" groups="virsat.group_view_vr_trainee_name"/></div>
                                     <div>Session Start: <field name="session_start"/></div>
                                     <div>Session End: <field name="session_end"/></div>
-                                    <div>Violation: <field name="violation"/></div>
-                                    <div>Selection: <field name="selection"/></div>
+                                    <div>Challenge: <field name="violation"/></div>
+                                    <div t-if="record.selection.raw_value">Selection: <field name="selection"/></div>
+                                    <div t-if="record.score.raw_value > 0">Score: <field name="score"/></div>
                                     <div class="mt-2">
                                         <t t-if="record.remark.raw_value == 'Passed' or record.remark.raw_value == 'Correct'">
                                             <div class="h1"><i class="fa fa-check-circle text-success"/> Passed</div>

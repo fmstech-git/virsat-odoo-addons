@@ -10,10 +10,10 @@
                 <page string="Other Information">
                     <group>
                         <group string="Setup">
-                            <field name="vr_trainee_pin_size"/>
+                            <field name="vr_trainee_pin_size" required="1"/>
                             <field name="vr_trainee_pin_max_size"/>
                             <field name="vr_trainee_limit"/>
-                            <field name="company_code"/>
+                            <field name="company_code" required="1"/>
                         </group>
                     </group>
                 </page>
