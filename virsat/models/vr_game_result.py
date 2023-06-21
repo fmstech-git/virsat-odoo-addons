@@ -12,13 +12,15 @@ class VrGameResult(models.Model):
     company_id = fields.Many2one('res.company', compute='get_company', store=True)
     company_code = fields.Char(tracking=True)
     vr_trainee_id = fields.Many2one('vr.trainee', compute='get_vr_trainee', string="Trainee", store=True)
-    device_id = fields.Char()
+    device_id = fields.Char(readonly=True)
     app_version = fields.Char()
     experience = fields.Char()
     game_code = fields.Char(tracking=True)
-    vr_game_id = fields.Many2one('vr.games', compute="get_vr_game", string="Game", store=True)
-    level_code = fields.Char(tracking=True)
-    game_level_id = fields.Many2one('vr.game.levels', compute="get_vr_game_level", string="Game Level", store=True)
+    vr_game_id = fields.Many2one('vr.games', string="Game")
+    # level_code = fields.Char(tracking=True)
+    # game_level_id = fields.Many2one('vr.game.levels', compute="get_vr_game_level", string="Game Level", store=True)
+    challenge_code = fields.Char(tracking=True)
+    game_challenge_id = fields.Many2one('vr.game.challenges', string="Challenge", compute="get_vr_game_challenge", store=True)
     session_id = fields.Char()
     game_session_id = fields.Many2one('vr.game.sessions')
     session_start = fields.Datetime(compute="compute_session_start", store=True, tracking=True)
@@ -27,7 +29,7 @@ class VrGameResult(models.Model):
     session_end_str = fields.Char()
     domain = fields.Char()
     replay = fields.Char()
-    violation = fields.Char(string="Challenge")
+    # violation = fields.Char(string="Challenge")
     selection = fields.Char()
     sub_selection = fields.Char()
     gaze_point = fields.Char()
@@ -39,6 +41,12 @@ class VrGameResult(models.Model):
     score = fields.Integer(compute="compute_score", store=True, tracking=True)
     score_str = fields.Char()
     remark = fields.Char(string='Status', tracking=True)
+
+    def resync_data(self):
+        for res in self:
+            print(res.id)
+            res.get_vr_trainee()
+            res.get_vr_game_challenge()
 
     @api.depends('score_str')
     def compute_score(self):
@@ -77,19 +85,26 @@ class VrGameResult(models.Model):
                 result.vr_trainee_id = self.env['vr.trainee'].search(
                     [('pin', '=', result.name), ('company_id', '=', result.company_id.id)]) or False
 
-    @api.depends('game_code', 'company_id')
-    def get_vr_game(self):
-        for result in self:
-            if result.company_id:
-                result.vr_game_id = self.env['vr.games'].search(
-                    [('code', '=', result.game_code), ('company_id', '=', result.company_id.id)]) or False
+    # @api.depends('game_code', 'company_id')
+    # def get_vr_game(self):
+    #     for result in self:
+    #         if result.company_id:
+    #             result.vr_game_id = self.env['vr.games'].search(
+    #                 [('code', '=', result.game_code), ('company_id', '=', result.company_id.id)], limit=1) or False
 
-    @api.depends('level_code', 'company_id')
-    def get_vr_game_level(self):
+    # @api.depends('level_code', 'company_id')
+    # def get_vr_game_level(self):
+    #     for result in self:
+    #         if result.game_code:
+    #             result.game_level_id = self.env['vr.game.levels'].search(
+    #                 [('code', '=', result.level_code), ('game_id', '=', result.vr_game_id.id)]) or False
+
+    @api.depends('challenge_code', 'company_id')
+    def get_vr_game_challenge(self):
         for result in self:
-            if result.game_code:
-                result.game_level_id = self.env['vr.game.levels'].search(
-                    [('code', '=', result.level_code), ('game_id', '=', result.vr_game_id.id)]) or False
+            if result.challenge_code:
+                result.game_challenge_id = self.env['vr.game.challenges'].search(
+                    [('code', '=', result.challenge_code), ('game_id', '=', result.vr_game_id.id)]) or False
 
     @api.depends('company_code')
     def get_company(self):

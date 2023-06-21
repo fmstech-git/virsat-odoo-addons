@@ -5,11 +5,14 @@
         <field name="name">view.vr.games.form</field>
         <field name="model">vr.games</field>
         <field name="arch" type="xml">
-            <form string="VR Games">
+            <form string="Games">
                 <sheet>
                     <div class="oe_button_box" name="button_box">
-                        <button name="action_view_game_levels" type="object" class="oe_stat_button" icon="fa-bars">
+                        <!--<button name="action_view_game_levels" type="object" class="oe_stat_button" icon="fa-bars">
                             <field string="Game Levels" name="levels_count" widget="statinfo"/>
+                        </button>-->
+                        <button name="action_view_game_challenges" type="object" class="oe_stat_button" icon="fa-bars">
+                            <field string="Challenges" name="challenges_count" widget="statinfo"/>
                         </button>
                     </div>
                     <div class="oe_title">
@@ -24,8 +27,8 @@
                             <field name="company_id" groups="base.group_multi_company"/>
                         </group>
                         <group string="Status Computation">
-                            <field name="compute_status"/>
-                            <field name="compute_status_qty"/>
+                            <field name="status_compute_type"/>
+                            <field name="status_compute_qty"/>
                         </group>
                     </group>
                 </sheet>
@@ -41,7 +44,7 @@
         <field name="name">view.vr.games.tree</field>
         <field name="model">vr.games</field>
         <field name="arch" type="xml">
-            <tree string="VR Games">
+            <tree string="Games">
                <field name="name"/>
                 <field name="code"/>
                 <field name="company_id" groups="base.group_multi_company"/>
@@ -50,13 +53,13 @@
     </record>
 
     <record id="action_vr_games" model="ir.actions.act_window">
-        <field name="name">VR Games</field>
+        <field name="name">Games</field>
         <field name="res_model">vr.games</field>
         <field name="view_mode">tree,form</field>
     </record>
 
     <!--Game Levels-->
-    <record id="view_vr_game_levels_tree" model="ir.ui.view">
+    <!--<record id="view_vr_game_levels_tree" model="ir.ui.view">
         <field name="name">view.vr.game.levels.tree</field>
         <field name="model">vr.game.levels</field>
         <field name="arch" type="xml">
@@ -92,6 +95,25 @@
         <field name="name">VR Game Levels</field>
         <field name="res_model">vr.game.levels</field>
         <field name="view_mode">tree,form</field>
+    </record>-->
+
+    <!--Game Challenges-->
+    <record id="view_vr_game_challenges_tree" model="ir.ui.view">
+        <field name="name">view.vr.game.challenges.tree</field>
+        <field name="model">vr.game.challenges</field>
+        <field name="arch" type="xml">
+            <tree string="Game Challenges" editable="top">
+                <field name="name"/>
+                <field name="code"/>
+                <field name="game_id"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_vr_game_challenges" model="ir.actions.act_window">
+        <field name="name">VR Game Challenges</field>
+        <field name="res_model">vr.game.challenges</field>
+        <field name="view_mode">tree</field>
     </record>
 
     <!--Game Sessions -->
@@ -99,15 +121,17 @@
         <field name="name">view.vr.game.sessions.tree</field>
         <field name="model">vr.game.sessions</field>
         <field name="arch" type="xml">
-            <tree string="Game Sessions" create="false">
+            <tree string="Game Sessions" create="false" decoration-danger="status == 'failed'">
                 <field name="name"/>
                 <field name="session_start"/>
                 <field name="session_end"/>
                 <field name="game_id"/>
                 <field name="status"/>
+                <field name="status_compute_type" string="Scoring Type" optional="hide"/>
+                <field name="status_compute_qty" string="Passing Score" optional="hide"/>
                 <field name="company_code" groups="base.group_no_one"/>
                 <field name="company_id" groups="base.group_multi_company"/>
-                <button type="object" class="btn btn-success" name="action_view_result" title="View Result" string="View Result"/>
+                <button type="object" class="btn btn-primary" name="action_view_result" title="View Result" string="View Result"/>
             </tree>
         </field>
     </record>
@@ -118,6 +142,7 @@
         <field name="arch" type="xml">
             <form string="Game Sessions" create="false">
                 <header>
+                    <button type="object" class="oe_highlight" name="action_recompute_status" string="Recompute Status" groups="base.group_system"/>
                     <field name="status" widget="statusbar"/>
                 </header>
                 <sheet>
@@ -139,12 +164,14 @@
                             <field name="company_code" groups="base.group_no_one"/>
                             <field name="company_id" groups="base.group_multi_company"/>
                             <field name="vr_mail_id" groups="base.group_no_one" readonly="1"/>
+                            <field name="status_compute_type" groups="base.group_no_one" readonly="1"/>
+                            <field name="status_compute_qty" groups="base.group_no_one" readonly="1"/>
                         </group>
                     </group>
                     <field name="game_result_ids">
                         <tree>
-                            <field name="game_level_id" optional="hide"/>
-                            <field name="violation"/>
+                            <field name="game_challenge_id"/>
+                            <!--<field name="violation"/>-->
                             <field name="selection"/>
                             <field name="score" optional="hide"/>
                             <field name="remark"/>
@@ -160,20 +187,20 @@
     </record>
 
     <record id="action_vr_game_sessions" model="ir.actions.act_window">
-        <field name="name">VR Game Sessions</field>
+        <field name="name">Game Sessions</field>
         <field name="res_model">vr.game.sessions</field>
         <field name="view_mode">tree</field>
     </record>
 
     <record id="action_vr_game_sessions_per_company" model="ir.actions.act_window">
-        <field name="name">VR Game Sessions</field>
+        <field name="name">Game Sessions</field>
         <field name="res_model">vr.game.sessions</field>
         <field name="view_mode">tree</field>
         <field name="domain">[('company_id', '!=', False)]</field>
     </record>
 
     <record id="action_vr_game_sessions_admin" model="ir.actions.act_window">
-        <field name="name">VR Game Sessions</field>
+        <field name="name">Game Sessions</field>
         <field name="res_model">vr.game.sessions</field>
         <field name="view_mode">tree,form</field>
     </record>

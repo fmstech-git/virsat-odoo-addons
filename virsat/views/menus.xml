@@ -9,10 +9,9 @@
             <menuitem name="Fetch VR Mails" id="vr_mails_fetch_wiz_menu" sequence="20" action="action_vr_mails_fetch_wiz" groups="virsat.group_vr_manager"/>
         </menuitem>
 
-        <menuitem name="Games" id="vr_games_root_menu" sequence="15" groups="virsat.group_vr_manager">
-            <menuitem name="Games" id="vr_games_menu" sequence="10" action="action_vr_games" groups="virsat.group_vr_manager"/>
-            <menuitem name="Game Sessions" id="vr_game_sessions_menu" sequence="30" action="action_vr_game_sessions_admin" groups="virsat.group_vr_manager"/>
-            <menuitem name="Game Results" id="vr_game_result_menu" sequence="40" action="action_vr_game_result" groups="base.group_no_one"/>
+        <menuitem name="Games" id="vr_games_root_menu" sequence="15" groups="virsat.group_vr_game_developer">
+            <menuitem name="Games" id="vr_games_menu" sequence="10" action="action_vr_games" groups="virsat.group_vr_game_developer"/>
+            <menuitem name="Game Sessions" id="vr_game_sessions_company_menu" sequence="30" action="action_vr_game_sessions_per_company" groups="virsat.group_vr_game_developer"/>
         </menuitem>
 
         <menuitem name="Trainee" id="vr_trainee_root_menu" sequence="20">
@@ -23,7 +22,11 @@
         <menuitem name="Configurations" id="vr_config_menu" sequence="100" groups="virsat.group_vr_manager">
             <menuitem name="Reserved PIN" id="vr_reserved_pin_menu" sequence="10" action="action_vr_reserved_pin"/>
             <menuitem id="vr_config_company_menu" name="Company" sequence="30" groups="virsat.group_vr_manager" action="base.action_res_company_form"/>
-            <menuitem id="vr_config_user_menu" name="User" sequence="40" groups="virsat.group_vr_manager" action="base.action_res_users"/>
+            <menuitem id="vr_config_user_menu" name="User" sequence="40" groups="virsat.group_vr_manager" action="action_virsat_res_users"/>
+            <menuitem name="Game Results" id="vr_config_game_results_menu" sequence="50" groups="base.group_system">
+                <menuitem name="Game Sessions" id="vr_game_sessions_menu" sequence="10" action="action_vr_game_sessions_admin"/>
+                <menuitem name="Game Results" id="vr_game_result_menu" sequence="20" action="action_vr_game_result"/>
+            </menuitem>
         </menuitem>
 
         <menuitem id="vr_reports_root_menu" name="Reports" sequence="40" groups="virsat.group_vr_officer">

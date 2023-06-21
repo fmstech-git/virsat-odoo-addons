@@ -46,100 +46,133 @@ class VirsatVrMails(models.Model):
     @api.model
     def create(self, vals):
         res = super(VirsatVrMails, self).create(vals)
-
         if res.res_model == 'virsat.vr.mails' and res.mimetype in ('application/vnd.ms-excel', 'application/json', 'text/csv'):
             vr_mail = self.env[res.res_model].search([('id', '=', res.res_id)], limit=1)
-            game_result_obj = self.env['vr.game.result']
-            result_raw = base64.b64decode(res.datas).decode("utf-8", "ignore")
-            results = []
+            try:
+                game_result_obj = self.env['vr.game.result']
+                result_raw = base64.b64decode(res.datas).decode("utf-8", "ignore")
+                results = []
 
-            if res.mimetype in ('application/vnd.ms-excel', 'text/csv'):
-                results = csv.DictReader(result_raw.split('\n'))
+                if res.mimetype in ('application/vnd.ms-excel', 'text/csv'):
+                    results = csv.DictReader(result_raw.split('\n'))
 
-            if res.mimetype == 'application/json':
-                results.append(json.loads(result_raw))
+                if res.mimetype == 'application/json':
+                    results.append(json.loads(result_raw))
 
-            # game session needed variables
-            game_session_obj = self.env['vr.game.sessions']
-            game_obj = self.env['vr.games']
-            level_obj = self.env['vr.game.levels']
-            ctr = 0
-            company_code = ''
-            new_session = False
-            game = False
-            game_code = False
+                # game session needed variables
+                game_session_obj = self.env['vr.game.sessions']
+                game_obj = self.env['vr.games']
+                challenge_obj = self.env['vr.game.challenges']
+                company_code = ''
+                game = {}
+                existing_game = {}
+                new_session = {}
+                new_game_result_ids = []
 
-            for line in results:
-                try:
-                    # add new session but make sure only single entry will be created
-                    ctr += 1
-                    if ctr == 1:
+                for line in results:
+                    try:
+                        # add new session but make sure only single entry will be created
+                        challenge_code = line.get('Violation', 'False')
+                        if not challenge_code or challenge_code.strip() in ('N/A', 'False', False, ''):
+                            challenge_code = line.get('LevelCode', False)
                         game_code = line.get('GameCode', False)
-                        game = game_obj.search([('code', '=', game_code)])
-                        if game_code:
+                        challenge = challenge_obj.search([('code', '=', challenge_code)])
+
+                        # if challenge not exist, add a log note
+                        if not challenge:
+                            vr_mail.message_post(body="Challenge code (%s) doesn't exist." % challenge_code)
+
+                        game_ids = challenge.mapped('game_id.id')
+                        # game = game_obj.search([('id', 'in', game_ids)], limit=1)
+                        if game_code and game_code.strip() not in ('N/A', 'False', False, ''):
+                            game = game_obj.search([('id', 'in', game_ids), ('code', '=', game_code)], limit=1)
+
+                        # add log not if challenge code doesn't belong to any games
+                        if not game:
+                            vr_mail.message_post(body="No game matching with the challenge code (%s)." % challenge_code)
+
+                        if game_code and game:
                             company_code = game.company_id.company_code if game else False
 
-                        new_session = game_session_obj.create({
+                            if not existing_game:
+                                existing_game = game
+
+                        if not new_session:
+                            new_session = game_session_obj.create({
+                                'name': line.get('UserID', False),
+                                'session_start_str': line.get('SessionStart', False),
+                                'session_end_str': line.get('SessionEnd', False),
+                                'vr_mail_id': vr_mail.id,
+                            })
+
+                        game_data = {
                             'name': line.get('UserID', False),
-                            'company_code': company_code,
+                            'device_id': line.get('DeviceID', False),
+                            'app_version': line.get('AppVersion', False),
+                            'experience': line.get('Experience', False),
+                            'game_code': game_code,
+                            'vr_game_id': game.id if game else False,
+                            'session_id': line.get('SessionID', False),
+                            'game_session_id': new_session and new_session.id or False,
                             'session_start_str': line.get('SessionStart', False),
                             'session_end_str': line.get('SessionEnd', False),
-                            'game_id': game.id if game else False,
+                            'domain': line.get('Domain', False),
+                            'replay': line.get('Replay', False),
+                            'challenge_code': challenge_code,
+                            'selection': line.get('Selection').strip() if line.get('Selection', False) else False,
+                            'sub_selection': line.get('SubSelection', False),
+                            'score_str': line.get('Score', False),
+                            'remark': line.get('Status', False),
+                            'gaze_point': line.get('GazePoint', False),
+                            'view_count': line.get('ViewCount', False),
+                            'reaction_time_str': line.get('ReactionTime', False),
+                            'view_time_str': line.get('ViewTime', False),
                             'vr_mail_id': vr_mail.id,
-                        })
+                            'attachment_id': res.id,
+                        }
 
-                    # insert new level if it doesn't exist
-                    level_code = line.get('LevelCode', False)
-                    if game and level_code:
-                        if level_code in ('N/A', 'False'):
-                            level_code = line.get('Violation', False)
+                        new_game_result = game_result_obj.create(game_data)
 
-                        level = level_obj.search([('game_id', '=', game.id), ('code', '=', level_code)])
-                        if not level and level_code not in ('N/A', 'False'):
-                            level_obj.create({'name': level_code, 'code': level_code, 'game_id': game.id})
+                        # create a new record in game result even if no matching pin
+                        if new_game_result:
+                            new_game_result_ids.append(new_game_result.id)
 
-                    game_data = {
-                        'name': line.get('UserID', False),
-                        'company_code': company_code,
-                        'device_id': line.get('DeviceID', False),
-                        'app_version': line.get('AppVersion', False),
-                        'experience': line.get('Experience', False),
-                        'game_code': game_code,
-                        'level_code': level_code,
-                        'session_id': line.get('SessionID', False),
-                        'game_session_id': new_session and new_session.id or False,
-                        'session_start_str': line.get('SessionStart', False),
-                        'session_end_str': line.get('SessionEnd', False),
-                        'domain': line.get('Domain', False),
-                        'replay': line.get('Replay', False),
-                        'violation': line.get('Violation', False),
-                        'selection': line.get('Selection', False),
-                        'sub_selection': line.get('SubSelection', False),
-                        'score_str': line.get('Score', False),
-                        # 'status': line['Status'].lower() if line.get('Status') else False,
-                        'remark': line.get('Status', False),
-                        'gaze_point': line.get('GazePoint', False),
-                        'view_count': line.get('ViewCount', False),
-                        'reaction_time_str': line.get('ReactionTime', False),
-                        'view_time_str': line.get('ViewTime', False),
-                        'vr_mail_id': vr_mail.id,
-                        'attachment_id': res.id,
-                    }
+                            # immediately save even if next have issues
+                            self.env.cr.commit()
 
-                    new_game_result = game_result_obj.create(game_data)
-                    vr_mail.update({'company_code': company_code})
+                    except Exception as e:
+                        vr_mail.message_post(body="Game result not saved. Something went wrong. %s" % e)
+                        _logger.error("Game result not saved. Something went wrong. %s", e)
+                        pass
 
-                    # create a new record in game result even if no matching pin
-                    if new_game_result:
-                        vr_mail.message_post(body="Game result created successfully (%s)." % new_game_result.id)
-                        _logger.info("======= Game result created successfully (%s) =======", new_game_result.name)
+                # update game result
+                if new_game_result_ids and existing_game and company_code:
+                    # update company code
+                    game_result_obj.browse(new_game_result_ids).write({'company_code': company_code})
 
-                        # immediately save even if next have issues
-                        self.env.cr.commit()
+                    # update result which doesn't have game
+                    no_game_id = game_result_obj.browse(new_game_result_ids).filtered(lambda g: not g.vr_game_id)
+                    no_game_id.write({'vr_game_id': existing_game.id})
 
-                except Exception as e:
-                    vr_mail.message_post(body="Game result not saved. Something went wrong. %s" % e)
-                    _logger.error("Game result not saved. Something went wrong. %s", e)
-                    pass
+                # update game session
+                if new_session and existing_game:
+                    new_session.write({'company_code': company_code,
+                                       'game_id': existing_game.id,
+                                       'status_compute_type': existing_game.status_compute_type,
+                                       'status_compute_qty': existing_game.status_compute_qty,
+                                       })
+                    # compute the status
+                    new_session.compute_status()
+
+                vr_mail.update({'company_code': company_code})
+
+                if new_game_result_ids:
+                    vr_mail.message_post(body="Game result created successfully %s." % new_game_result_ids)
+                    _logger.info("======= Game result created successfully %s =======", new_game_result_ids)
+
+            except Exception as e:
+                vr_mail.message_post(body="Game result not saved. Something went wrong. %s" % e)
+                _logger.error("Game result not saved. Something went wrong. %s", e)
+                pass
 
         return res

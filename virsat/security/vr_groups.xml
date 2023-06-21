@@ -17,9 +17,15 @@
         <field name="category_id" ref="module_category_virsat"/>
     </record>
 
+    <record id="group_vr_game_developer" model="res.groups">
+        <field name="name">Game Developer</field>
+        <field name="implied_ids" eval="[(4, ref('group_vr_officer'))]"/>
+        <field name="category_id" ref="module_category_virsat"/>
+    </record>
+
     <record id="group_vr_manager" model="res.groups">
         <field name="name">Manager</field>
-        <field name="implied_ids" eval="[(4, ref('group_vr_officer'))]"/>
+        <field name="implied_ids" eval="[(4, ref('group_vr_game_developer'))]"/>
         <field name="category_id" ref="module_category_virsat"/>
     </record>
 
