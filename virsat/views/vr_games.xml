@@ -251,7 +251,7 @@
     <record id="action_vr_game_sessions_per_trainee" model="ir.actions.act_window">
         <field name="name">Training Results Per Trainee</field>
         <field name="res_model">vr.game.sessions</field>
-        <field name="view_mode">graph,tree,pivot,form</field>
+        <field name="view_mode">tree,pivot,form</field>
         <field name="domain">[('company_id', '!=', False)]</field>
         <field name="context">{'group_by': ['name','game_id','status'], 'pivot_measures': ['__count'], 'pivot_column_groupby': ['status'], 'pivot_row_groupby': ['name','game_id']}</field>
     </record>
