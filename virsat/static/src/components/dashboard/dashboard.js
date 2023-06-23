@@ -34,13 +34,14 @@ class VirsatDashboard extends Component {
 
      openGameResultsReport() {
         this.action.doAction("virsat.action_vr_game_result_report")
-        /*this.action.doAction({
-            type: "ir.actions.act_window",
-            name: "Game Results",
-            res_model: "vr.game.result.report",
-            views: [[false, "kanban"], [false, "tree"]],
-            domain: [['company_id', 'in', this.companies]]
-        });*/
+    }
+
+    openPerGameReport() {
+        this.action.doAction("virsat.action_vr_game_sessions_per_game")
+    }
+
+    openPerTraineeReport() {
+        this.action.doAction("virsat.action_vr_game_sessions_per_trainee")
     }
 }
 

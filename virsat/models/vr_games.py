@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from odoo import fields, models, api
 from datetime import datetime
+import pytz
 from odoo.exceptions import ValidationError
 
 
@@ -128,17 +129,19 @@ class VrGameSessions(models.Model):
         hide = {'message_partner_ids', 'message_needaction_counter',
                 'company_id', 'session_start_str', 'message_main_attachment_id', 'has_message', 'message_needaction',
                 'message_has_error', 'vr_mail_id', 'message_has_sms_error', 'message_attachment_count',
-                'company_code', 'name', 'game_result_ids', 'message_ids', 'session_end_str',
-                'message_follower_ids', 'message_has_error_counter', 'write_date', 'message_is_follower', 'create_date'}
+                'company_code', 'vr_trainee_id', 'game_result_ids', 'message_ids', 'session_end_str', 'status_compute_type',
+                'message_follower_ids', 'message_has_error_counter', 'write_date', 'message_is_follower',
+                'status_compute_qty', 'create_date'}
         res = super().fields_get(allfields, attributes)
 
         for field in hide:
             if res.get(field):
                 res[field]['searchable'] = False
                 res[field]['sortable'] = False
+                res[field]['selectable'] = False
+                res[field]['store'] = False
 
         return res
-
 
     @api.depends('session_start_str')
     def compute_session_start(self):

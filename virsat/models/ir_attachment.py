@@ -52,9 +52,11 @@ class VirsatVrMails(models.Model):
                 game_result_obj = self.env['vr.game.result']
                 result_raw = base64.b64decode(res.datas).decode("utf-8", "ignore")
                 results = []
+                results1 = []
 
                 if res.mimetype in ('application/vnd.ms-excel', 'text/csv'):
                     results = csv.DictReader(result_raw.split('\n'))
+                    results1 = csv.DictReader(result_raw.split('\n'))  # to be used in checking 1 company and game
 
                 if res.mimetype == 'application/json':
                     results.append(json.loads(result_raw))
@@ -63,9 +65,31 @@ class VirsatVrMails(models.Model):
                 game_session_obj = self.env['vr.game.sessions']
                 game_obj = self.env['vr.games']
                 challenge_obj = self.env['vr.game.challenges']
+
+                company_code_init = False
+                game_init = False
+
+                # we need to check at least 1 company and 1 game
+                # for game result that doesn't have company and game, we will use this data
+                for l in results1:
+                    if company_code_init and game_init:
+                        break
+
+                    challenge_code = l.get('Violation', 'False')
+                    if not challenge_code or challenge_code.strip() in ('N/A', 'False', False, ''):
+                        challenge_code = l.get('LevelCode', False)
+                    game_code = l.get('GameCode', False)
+                    challenge = challenge_obj.search([('code', '=', challenge_code)])
+                    game_ids = challenge.mapped('game_id.id')
+                    if game_code.strip() not in ('N/A', 'False', False, ''):
+                        if not game_init:
+                            game_init = game_obj.search([('id', 'in', game_ids), ('code', '=', game_code)], limit=1)
+                    if game_code and game_init:
+                        if not company_code_init:
+                            company_code_init = game_init.company_id.company_code
+
                 company_code = ''
                 game = {}
-                existing_game = {}
                 new_session = {}
                 new_game_result_ids = []
 
@@ -83,7 +107,6 @@ class VirsatVrMails(models.Model):
                             vr_mail.message_post(body="Challenge code (%s) doesn't exist." % challenge_code)
 
                         game_ids = challenge.mapped('game_id.id')
-                        # game = game_obj.search([('id', 'in', game_ids)], limit=1)
                         if game_code and game_code.strip() not in ('N/A', 'False', False, ''):
                             game = game_obj.search([('id', 'in', game_ids), ('code', '=', game_code)], limit=1)
 
@@ -92,26 +115,28 @@ class VirsatVrMails(models.Model):
                             vr_mail.message_post(body="No game matching with the challenge code (%s)." % challenge_code)
 
                         if game_code and game:
-                            company_code = game.company_id.company_code if game else False
-
-                            if not existing_game:
-                                existing_game = game
+                            company_code = game.company_id.company_code
 
                         if not new_session:
                             new_session = game_session_obj.create({
                                 'name': line.get('UserID', False),
                                 'session_start_str': line.get('SessionStart', False),
                                 'session_end_str': line.get('SessionEnd', False),
+                                'company_code': company_code or company_code_init,
+                                'game_id': game.id or game_init.id or False,
+                                'status_compute_type': game.status_compute_type or game_init.status_compute_type or False,
+                                'status_compute_qty': game.status_compute_qty or game_init.status_compute_qty or False,
                                 'vr_mail_id': vr_mail.id,
                             })
 
                         game_data = {
                             'name': line.get('UserID', False),
+                            'company_code': company_code or company_code_init,
                             'device_id': line.get('DeviceID', False),
                             'app_version': line.get('AppVersion', False),
                             'experience': line.get('Experience', False),
                             'game_code': game_code,
-                            'vr_game_id': game.id if game else False,
+                            'vr_game_id': game.id or game_init.id or False,
                             'session_id': line.get('SessionID', False),
                             'game_session_id': new_session and new_session.id or False,
                             'session_start_str': line.get('SessionStart', False),
@@ -145,24 +170,8 @@ class VirsatVrMails(models.Model):
                         _logger.error("Game result not saved. Something went wrong. %s", e)
                         pass
 
-                # update game result
-                if new_game_result_ids and existing_game and company_code:
-                    # update company code
-                    game_result_obj.browse(new_game_result_ids).write({'company_code': company_code})
-
-                    # update result which doesn't have game
-                    no_game_id = game_result_obj.browse(new_game_result_ids).filtered(lambda g: not g.vr_game_id)
-                    no_game_id.write({'vr_game_id': existing_game.id})
-
                 # update game session
-                if new_session and existing_game:
-                    new_session.write({'company_code': company_code,
-                                       'game_id': existing_game.id,
-                                       'status_compute_type': existing_game.status_compute_type,
-                                       'status_compute_qty': existing_game.status_compute_qty,
-                                       })
-                    # compute the status
-                    new_session.compute_status()
+                new_session.compute_status()
 
                 vr_mail.update({'company_code': company_code})
 

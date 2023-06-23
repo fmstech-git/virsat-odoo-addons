@@ -17,17 +17,17 @@
             <div class="row">
                 <div class="col text-center bg-white p-3 border me-2">
                     <div class="h1"><i class="oi oi-apps text-muted"/></div>
-                    <div class="vr-dashboard-counter text-dark"><strong t-esc="statistics['games']"/></div>
+                    <a href="#" class="vr-dashboard-counter" t-on-click="openPerGameReport"><strong t-esc="statistics['games']"/></a>
                     <div>Games</div>
                 </div>
                 <div class="col text-center bg-white p-3 border me-2">
                     <div class="h1"><i class="fa fa-tasks text-muted"/></div>
-                    <div class="vr-dashboard-counter text-dark"><strong t-esc="statistics['sessions']"/></div>
+                    <a href="#" class="vr-dashboard-counter" t-on-click="openGameResultsReport"><strong t-esc="statistics['sessions']"/></a>
                     <div>Sessions</div>
                 </div>
                 <div class="col text-center bg-white p-3 border">
                     <div class="h1"><i class="fa fa-users text-muted"/></div>
-                    <div class="vr-dashboard-counter text-dark"><strong t-esc="statistics['trainees']"/></div>
+                    <a href="" class="vr-dashboard-counter" t-on-click="openPerTraineeReport"><strong t-esc="statistics['trainees']"/></a>
                     <div>Trainees</div>
                 </div>
             </div>
