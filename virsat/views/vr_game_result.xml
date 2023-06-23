@@ -30,11 +30,11 @@
             <field name="name">vr.game.result.form</field>
             <field name="model">vr.game.result</field>
             <field name="arch" type="xml">
-                <form string="Website Event Menu" create="0" edit="1">
+                <form string="Training Result" create="0" edit="1">
                     <sheet>
                         <group>
                             <group>
-                                <field name="name" readonly="1"/>
+                                <field name="name" readonly="0" groups="base.group_system"/>
                                 <field name="vr_trainee_id" options="{'no_open': True}" groups="base.group_no_one"/>
                                 <field name="company_code" readonly="0" groups="base.group_system"/>
                                 <field name="company_id" groups="base.group_multi_company"/>
@@ -156,6 +156,7 @@ if records:
                     <field name="selection"/>
                     <field name="score"/>
                     <field name="remark"/>
+                    <field name="status"/>
                     <field name="company_id" groups="base.group_multi_company"/>
                 </tree>
             </field>
@@ -168,8 +169,8 @@ if records:
                 <search>
                     <field name="pin"/>
                     <field name="trainee_name" groups="virsat.group_view_vr_trainee_name"/>
-                    <filter name="passed" domain="[('remark', 'in', ('Passed', 'Correct'))]" string="Passed/Correct"/>
-                    <filter name="failed" domain="[('remark', 'not in', ('Passed', 'Correct'))]" string="Failed/Inorrect"/>
+                    <!--<filter name="passed" domain="[('remark', 'in', ('Passed', 'Correct'))]" string="Passed/Correct"/>
+                    <filter name="failed" domain="[('remark', 'not in', ('Passed', 'Correct'))]" string="Failed/Inorrect"/>-->
                     <filter string="Challenge" name="level" context="{'group_by':'challenge_id'}"/>
                     <filter string="Game" name="game" context="{'group_by':'game_id'}"/>
                     <filter string="PIN" name="trainee" context="{'group_by':'pin'}"/>
@@ -180,10 +181,11 @@ if records:
         </record>
 
         <record id="action_vr_game_result_report" model="ir.actions.act_window">
-            <field name="name">Game Results</field>
+            <field name="name">Training Results</field>
             <field name="res_model">vr.game.result.report</field>
-            <field name="view_mode">tree,kanban</field>
+            <field name="view_mode">tree,pivot</field>
             <field name="domain">[]</field>
+            <field name="context">{'group_by': ['pin','game_id','session_start:day','challenge_id'], 'pivot_measures': ['__count'], 'pivot_column_groupby': ['status'], 'pivot_row_groupby': ['pin', 'game_id','session_start:day','challenge_id']}</field>
         </record>
 
         <record model="ir.actions.client" id="client_action_dashboard">

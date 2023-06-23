@@ -11,10 +11,10 @@
 
         <menuitem name="Games" id="vr_games_root_menu" sequence="15" groups="virsat.group_vr_game_developer">
             <menuitem name="Games" id="vr_games_menu" sequence="10" action="action_vr_games" groups="virsat.group_vr_game_developer"/>
-            <menuitem name="Game Sessions" id="vr_game_sessions_company_menu" sequence="30" action="action_vr_game_sessions_per_company" groups="virsat.group_vr_game_developer"/>
+            <!--<menuitem name="Game Sessions" id="vr_game_sessions_company_menu" sequence="30" action="action_vr_game_sessions_per_company" groups="virsat.group_vr_game_developer"/>-->
         </menuitem>
 
-        <menuitem name="Trainee" id="vr_trainee_root_menu" sequence="20">
+        <menuitem name="Trainee" id="vr_trainee_root_menu" sequence="20" groups="virsat.group_vr_manager">
             <menuitem name="Trainee" id="vr_trainee_sub_menu" sequence="10" action="action_vr_trainee"/>
             <menuitem name="Import Trainees" id="vr_trainee_import_wiz_menu" sequence="20" action="action_vr_trainee_import_wiz"/>
         </menuitem>
@@ -30,8 +30,10 @@
         </menuitem>
 
         <menuitem id="vr_reports_root_menu" name="Reports" sequence="40" groups="virsat.group_vr_officer">
-            <menuitem name="Training Sessions" id="vr_game_sessions_report_menu" sequence="10" action="action_vr_game_sessions_per_company"/>
-            <menuitem name="Training Results" id="vr_game_result_report_menu" sequence="20" action="action_vr_game_result_report"/>
+            <!--<menuitem name="Training Sessions" id="vr_game_sessions_report_menu" sequence="10" action="action_vr_game_sessions_per_company"/>-->
+            <menuitem name="Results per Game" id="vr_result_per_game_menu" sequence="10" action="action_vr_game_sessions_per_game"/>
+            <menuitem name="Results per Trainee" id="vr_result_per_trainee_menu" sequence="20" action="action_vr_game_sessions_per_trainee"/>
+            <menuitem name="All Training Results" id="vr_game_result_report_menu" sequence="30" action="action_vr_game_result_report"/>
         </menuitem>
 
     </menuitem>

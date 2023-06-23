@@ -102,11 +102,23 @@
         <field name="name">view.vr.game.challenges.tree</field>
         <field name="model">vr.game.challenges</field>
         <field name="arch" type="xml">
-            <tree string="Game Challenges" editable="top">
+            <tree string="Game Challenges" editable="top" edit="false" create="false">
                 <field name="name"/>
                 <field name="code"/>
                 <field name="game_id"/>
             </tree>
+        </field>
+    </record>
+
+    <record id="view_vr_game_challenges_form" model="ir.ui.view">
+        <field name="name">view.vr.game.challenges.form</field>
+        <field name="model">vr.game.challenges</field>
+        <field name="arch" type="xml">
+            <form string="Game Challenges">
+                <field name="name"/>
+                <field name="code"/>
+                <field name="game_id"/>
+            </form>
         </field>
     </record>
 
@@ -121,24 +133,59 @@
         <field name="name">view.vr.game.sessions.tree</field>
         <field name="model">vr.game.sessions</field>
         <field name="arch" type="xml">
-            <tree string="Game Sessions" create="false" decoration-danger="status == 'failed'">
-                <field name="name"/>
+            <tree string="Game Sessions" create="false" edit="false" decoration-danger="status == 'failed'">
+                <field name="name" readonly="1"/>
                 <field name="session_start"/>
                 <field name="session_end"/>
-                <field name="game_id"/>
-                <field name="status"/>
-                <field name="status_compute_type" string="Scoring Type" optional="hide"/>
-                <field name="status_compute_qty" string="Passing Score" optional="hide"/>
-                <field name="company_code" groups="base.group_no_one"/>
+                <field name="game_id" readonly="1"/>
+                <field name="status" readonly="1"/>
+                <!--<field name="status_compute_type" string="Scoring Type" optional="hide"/>
+                <field name="status_compute_qty" string="Passing Score" optional="hide"/>-->
+                <field name="company_code" groups="base.group_no_one" readonly="1"/>
                 <field name="company_id" groups="base.group_multi_company"/>
-                <button type="object" class="btn btn-primary" name="action_view_result" title="View Result" string="View Result"/>
+                <!--<button type="object" class="btn btn-primary" name="action_view_result" title="View Result" string="View Result"/>-->
             </tree>
+        </field>
+    </record>
+
+    <record id="view_vr_game_sessions_graph" model="ir.ui.view">
+        <field name="name">view.vr.game.sessions.graph</field>
+        <field name="model">vr.game.sessions</field>
+        <field name="arch" type="xml">
+            <graph string="Training Results" disable_linking="False" stacked="1">
+                <field name="game_id" type="row"/>
+                <field name="status" type="col"/>
+            </graph>
+        </field>
+    </record>
+
+    <record id="view_vr_game_sessions_pivot" model="ir.ui.view">
+        <field name="name">view.vr.game.sessions.pivot</field>
+        <field name="model">vr.game.sessions</field>
+        <field name="arch" type="xml">
+            <pivot string="Training Results" disable_linking="False">
+                <field name="game_id" type="row"/>
+                <field name="status" type="col"/>
+            </pivot>
+        </field>
+    </record>
+
+    <record id="view_vr_game_sessions_search" model="ir.ui.view">
+        <field name="name">view.vr.game.sessions.search</field>
+        <field name="model">vr.game.sessions</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="game_id"/>
+                <filter string="PIN" name="pin" context="{'group_by':'name'}"/>
+            </search>
         </field>
     </record>
 
     <record id="view_vr_game_sessions_form" model="ir.ui.view">
         <field name="name">view.vr.game.sessions.form</field>
         <field name="model">vr.game.sessions</field>
+        <field name="groups_id" eval="[(6,0,[ref('base.group_system')])]"/>
         <field name="arch" type="xml">
             <form string="Game Sessions" create="false">
                 <header>
@@ -148,37 +195,37 @@
                 <sheet>
                     <div class="oe_title">
                         <h1>
-                            <field name="vr_trainee_id"/>
+                            <field name="vr_trainee_id"  options="{'no_open': True}" readonly="1"/>
                         </h1>
                     </div>
                     <group>
                         <group>
-                            <field name="name" groups="base.group_no_one"/>
+                            <field name="name" groups="base.group_system"/>
                             <field name="session_start"/>
-                            <field name="session_start_str" groups="base.group_no_one"/>
+                            <field name="session_start_str" groups="base.group_system"/>
                             <field name="session_end"/>
-                            <field name="session_end_str" groups="base.group_no_one"/>
-                            <field name="game_id"/>
+                            <field name="session_end_str" groups="base.group_system"/>
                         </group>
                         <group>
-                            <field name="company_code" groups="base.group_no_one"/>
+                            <field name="game_id" readonly="1" options="{'no_open': True}"/>
+                            <field name="company_code" groups="base.group_system"/>
                             <field name="company_id" groups="base.group_multi_company"/>
-                            <field name="vr_mail_id" groups="base.group_no_one" readonly="1"/>
-                            <field name="status_compute_type" groups="base.group_no_one" readonly="1"/>
-                            <field name="status_compute_qty" groups="base.group_no_one" readonly="1"/>
+                            <field name="vr_mail_id" groups="base.group_system" readonly="1"/>
+                            <field name="status_compute_type" groups="base.group_system" readonly="1"/>
+                            <field name="status_compute_qty" groups="base.group_system" readonly="1"/>
                         </group>
                     </group>
-                    <field name="game_result_ids">
-                        <tree>
+                    <field name="game_result_ids" readonly="1">
+                        <tree no_open="1" editable="bottom">
+                            <field name="domain" string="Language"/>
                             <field name="game_challenge_id"/>
-                            <!--<field name="violation"/>-->
                             <field name="selection"/>
-                            <field name="score" optional="hide"/>
+                            <field name="score"/>
                             <field name="remark"/>
                         </tree>
                     </field>
                 </sheet>
-                <div class="oe_chatter" groups="base.group_no_one">
+                <div class="oe_chatter" groups="base.group_system">
                     <field name="message_follower_ids" widget="mail_followers"/>
                     <field name="message_ids" widget="mail_thread"/>
                 </div>
@@ -190,6 +237,23 @@
         <field name="name">Game Sessions</field>
         <field name="res_model">vr.game.sessions</field>
         <field name="view_mode">tree</field>
+        <field name="domain">[('company_id', '!=', False)]</field>
+    </record>
+
+    <record id="action_vr_game_sessions_per_game" model="ir.actions.act_window">
+        <field name="name">Training Results Per Game</field>
+        <field name="res_model">vr.game.sessions</field>
+        <field name="view_mode">graph,pivot</field>
+        <field name="domain">[('company_id', '!=', False)]</field>
+        <field name="context">{}</field>
+    </record>
+
+    <record id="action_vr_game_sessions_per_trainee" model="ir.actions.act_window">
+        <field name="name">Training Results Per Trainee</field>
+        <field name="res_model">vr.game.sessions</field>
+        <field name="view_mode">pivot,tree,form</field>
+        <field name="domain">[('company_id', '!=', False)]</field>
+        <field name="context">{'group_by': ['name','game_id','status'], 'pivot_measures': ['__count'], 'pivot_column_groupby': ['status'], 'pivot_row_groupby': ['name','game_id']}</field>
     </record>
 
     <record id="action_vr_game_sessions_per_company" model="ir.actions.act_window">

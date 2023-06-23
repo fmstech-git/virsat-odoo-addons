@@ -26,6 +26,7 @@
         'views/vr_games.xml',
         'views/res_company.xml',
         'views/res_users.xml',
+        'views/res_partner.xml',
         # wizard
         'wizards/vr_trainee_import_wiz.xml',
         'wizards/vr_mails_fetch_wiz.xml',

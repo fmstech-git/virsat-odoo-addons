@@ -17,17 +17,18 @@ class VrGameResultReport(models.Model):
     game_session_id = fields.Many2one('vr.game.sessions', readonly=True)
     game_id = fields.Many2one('vr.games', string="Training Module", readonly=True)
     # game_level_id = fields.Many2one('vr.game.levels', string="Level", readonly=True)
-    session_start = fields.Datetime()
-    session_end = fields.Datetime()
-    score = fields.Integer()
+    session_start = fields.Datetime(readonly=True)
+    session_end = fields.Datetime(readonly=True)
+    score = fields.Integer(readonly=True)
     # violation = fields.Char(string="Challenge")
-    challenge_id = fields.Many2one('vr.game.challenges')
-    challenge_code = fields.Char()
-    selection = fields.Char()
+    challenge_id = fields.Many2one('vr.game.challenges', readonly=True)
+    challenge_code = fields.Char(readonly=True)
+    selection = fields.Char(readonly=True)
     # passing_score = fields.Integer()
     # status = fields.Selection([("passed", "Passed"), ('failed', 'Failed')], readonly=True)
-    remark = fields.Char(string="Status")
-    language = fields.Char()
+    remark = fields.Char(string="Remark", readonly=True)
+    language = fields.Char(readonly=True)
+    status = fields.Selection([("passed", "Passed"), ('failed', 'Failed')], readonly=True)
 
     _depends = {
         'vr.game.result': ['name'],
@@ -56,6 +57,7 @@ class VrGameResultReport(models.Model):
                 line.challenge_code,
                 line.selection,
                 line.domain as language,
+                session.status,
                 line.remark
         '''
 
@@ -64,6 +66,7 @@ class VrGameResultReport(models.Model):
         return '''
             FROM vr_game_result line
             LEFT JOIN vr_trainee trainee ON trainee.id = line.vr_trainee_id
+            LEFT JOIN vr_game_sessions session ON session.id = line.game_session_id
             LEFT JOIN vr_game_challenges challenge ON challenge.id = line.game_challenge_id and challenge.game_id = line.vr_game_id
         '''
 
