@@ -32,7 +32,7 @@ class VirsatDashboard extends Component {
         });
     }
 
-     openGameResultsReport() {
+    openGameResultsReport() {
         this.action.doAction("virsat.action_vr_game_result_report")
     }
 
@@ -40,7 +40,7 @@ class VirsatDashboard extends Component {
         this.action.doAction("virsat.action_vr_game_sessions_per_game")
     }
 
-    openPerTraineeReport() {
+    openPerSessionReport() {
         this.action.doAction("virsat.action_vr_game_sessions_per_trainee")
     }
 }
