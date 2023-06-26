@@ -177,7 +177,11 @@
             <search>
                 <field name="name"/>
                 <field name="game_id"/>
-                <filter string="PIN" name="pin" context="{'group_by':'name'}"/>
+                <filter string="Passed" name="passed" domain="[('status','=','passed')]"/>
+                <filter string="Failed" name="passed" domain="[('status','=','failed')]"/>
+                <filter string="PIN" name="group_pin" context="{'group_by':'name'}"/>
+                <filter string="Game" name="group_game" context="{'group_by':'game_id'}"/>
+                <filter string="Status" name="group_status" context="{'group_by':'status'}"/>
             </search>
         </field>
     </record>
@@ -243,7 +247,7 @@
     <record id="action_vr_game_sessions_per_game" model="ir.actions.act_window">
         <field name="name">Training Results Per Game</field>
         <field name="res_model">vr.game.sessions</field>
-        <field name="view_mode">graph,pivot</field>
+        <field name="view_mode">graph</field>
         <field name="domain">[('company_id', '!=', False)]</field>
         <field name="context">{}</field>
     </record>
@@ -251,9 +255,10 @@
     <record id="action_vr_game_sessions_per_trainee" model="ir.actions.act_window">
         <field name="name">Training Results Per Trainee</field>
         <field name="res_model">vr.game.sessions</field>
-        <field name="view_mode">tree,pivot,graph,form</field>
+        <field name="view_mode">tree,form</field>
         <field name="domain">[('company_id', '!=', False)]</field>
-        <field name="context">{'group_by': ['name','game_id','status'], 'pivot_measures': ['__count'], 'pivot_column_groupby': ['status'], 'pivot_row_groupby': ['name','game_id']}</field>
+        <field name="context">{'search_default_group_pin': 1}</field>
+        <!--<field name="context">{'group_by': ['name','game_id','status'], 'pivot_measures': ['__count'], 'pivot_column_groupby': ['status'], 'pivot_row_groupby': ['name','game_id']}</field>-->
     </record>
 
     <record id="action_vr_game_sessions_per_company" model="ir.actions.act_window">

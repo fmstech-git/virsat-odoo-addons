@@ -27,7 +27,7 @@
                 </div>
                 <div class="col text-center bg-white p-3 border">
                     <div class="h1"><i class="fa fa-users text-muted"/></div>
-                    <div class="vr-dashboard-counter"><strong t-esc="statistics['trainees']"/></div>
+                    <a href="#" class="vr-dashboard-counter" t-on-click="openTrainee"><strong t-esc="statistics['trainees']"/></a>
                     <div>Trainees</div>
                 </div>
             </div>

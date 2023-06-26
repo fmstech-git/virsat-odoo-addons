@@ -43,6 +43,10 @@ class VirsatDashboard extends Component {
     openPerSessionReport() {
         this.action.doAction("virsat.action_vr_game_sessions_per_trainee")
     }
+
+    openTrainee() {
+        this.action.doAction("virsat.action_vr_trainee")
+    }
 }
 
 VirsatDashboard.components = { Layout, PieChart };

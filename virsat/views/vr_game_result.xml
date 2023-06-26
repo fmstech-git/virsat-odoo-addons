@@ -171,10 +171,10 @@ if records:
                     <field name="trainee_name" groups="virsat.group_view_vr_trainee_name"/>
                     <!--<filter name="passed" domain="[('remark', 'in', ('Passed', 'Correct'))]" string="Passed/Correct"/>
                     <filter name="failed" domain="[('remark', 'not in', ('Passed', 'Correct'))]" string="Failed/Inorrect"/>-->
-                    <filter string="Challenge" name="level" context="{'group_by':'challenge_id'}"/>
-                    <filter string="Game" name="game" context="{'group_by':'game_id'}"/>
-                    <filter string="PIN" name="trainee" context="{'group_by':'pin'}"/>
+                    <filter string="PIN" name="group_pin" context="{'group_by':'pin'}"/>
                     <filter string="Trainee Name" name="trainee" context="{'group_by':'trainee_name'}" groups="virsat.group_view_vr_trainee_name"/>
+                    <filter string="Game" name="game" context="{'group_by':'game_id'}"/>
+                    <filter string="Challenge" name="level" context="{'group_by':'challenge_id'}"/>
                     <filter string="Session" name="session" context="{'group_by':'session_start'}"/>
                 </search>
             </field>
@@ -183,9 +183,10 @@ if records:
         <record id="action_vr_game_result_report" model="ir.actions.act_window">
             <field name="name">Training Results</field>
             <field name="res_model">vr.game.result.report</field>
-            <field name="view_mode">tree,pivot</field>
+            <field name="view_mode">tree</field>
             <field name="domain">[]</field>
-            <field name="context">{'group_by': ['pin','game_id','session_start:day','challenge_id'], 'pivot_measures': ['__count'], 'pivot_column_groupby': ['status'], 'pivot_row_groupby': ['pin', 'game_id','session_start:day','challenge_id']}</field>
+            <field name="context">{'search_default_group_pin':1}</field>
+            <!--<field name="context">{'group_by': ['pin','game_id','session_start:day','challenge_id'], 'pivot_measures': ['__count'], 'pivot_column_groupby': ['status'], 'pivot_row_groupby': ['pin', 'game_id','session_start:day','challenge_id']}</field>-->
         </record>
 
         <record model="ir.actions.client" id="client_action_dashboard">
