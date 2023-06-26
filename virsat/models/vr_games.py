@@ -2,6 +2,7 @@
 from odoo import fields, models, api
 from datetime import datetime
 import pytz
+from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT
 from odoo.exceptions import ValidationError
 
 
@@ -112,9 +113,9 @@ class VrGameSessions(models.Model):
     company_id = fields.Many2one('res.company', compute='get_company', store=True)
     company_code = fields.Char(tracking=True)
     vr_trainee_id = fields.Many2one('vr.trainee', compute='get_vr_trainee', string="Trainee", store=True)
-    session_start_str = fields.Char()
+    session_start_str = fields.Char(readonly=True)
     session_start = fields.Datetime(compute="compute_session_start", store=True, tracking=True)
-    session_end_str = fields.Char()
+    session_end_str = fields.Char(readonly=True)
     session_end = fields.Datetime(compute="compute_session_end", store=True, tracking=True)
     game_id = fields.Many2one('vr.games', string="Training Module", tracking=True)
     game_result_ids = fields.One2many('vr.game.result', 'game_session_id', readonly=True)
@@ -143,27 +144,66 @@ class VrGameSessions(models.Model):
 
         return res
 
+    # def compute_dates(self):
+    #     for res in self:
+    #         session_start = datetime.strptime(res.session_start_str, '%Y/%m/%d %H:%M:%S')
+    #         session_end = datetime.strptime(res.session_end_str, '%Y/%m/%d %H:%M:%S')
+    #         tz = res.company_id.partner_id.tz
+    #         utc = pytz.utc
+    #
+    #         if tz:
+    #             local = pytz.timezone(tz)
+    #
+    #             # convert session start
+    #             local_session_start = local.localize(session_start)
+    #             utc_session_start = local_session_start.astimezone(utc)
+    #             session_start = utc_session_start.strftime(DEFAULT_SERVER_DATETIME_FORMAT)
+    #
+    #             # convert session end
+    #             local_session_end = local.localize(session_end)
+    #             utc_session_end = local_session_end.astimezone(utc)
+    #             session_end = utc_session_end.strftime(DEFAULT_SERVER_DATETIME_FORMAT)
+    #
+    #         res.session_start = session_start
+    #         res.session_end = session_end
+
+    def convert_to_utc(self, date, tz):
+        try:
+            utc = pytz.utc
+            local = pytz.timezone(tz)
+            local_session_start = local.localize(date)
+            utc_date = local_session_start.astimezone(utc)
+            new_utc_date = utc_date.strftime(DEFAULT_SERVER_DATETIME_FORMAT)
+
+            return new_utc_date
+        except:
+            return False
+
     @api.depends('session_start_str')
     def compute_session_start(self):
         for result in self:
             try:
-                result.session_start = datetime.strptime(result.session_start_str, '%Y/%m/%d %H:%M:%S')
+                session_start = datetime.strptime(result.session_start_str, '%Y/%m/%d %H:%M:%S')
+                tz = result.company_id.partner_id.tz
+                if tz:
+                    session_start = self.convert_to_utc(session_start, tz)
+                result.session_start = session_start
             except:
-                try:
-                    result.session_start = datetime.strptime(result.session_start_str, '%Y/%m/%d %H:%M')
-                except:
-                    result.session_start = False
+                result.session_start = False
 
     @api.depends('session_end_str')
     def compute_session_end(self):
         for result in self:
             try:
-                result.session_end = datetime.strptime(result.session_end_str, '%Y/%m/%d %H:%M:%S')
+                session_end = datetime.strptime(result.session_end_str, '%Y/%m/%d %H:%M:%S')
+                tz = result.company_id.partner_id.tz
+
+                if tz:
+                    session_end = self.convert_to_utc(session_end, tz)
+
+                result.session_end = session_end
             except:
-                try:
-                    result.session_end = datetime.strptime(result.session_end_str, '%Y/%m/%d %H:%M')
-                except:
-                    result.session_end = False
+                result.session_end = False
 
     def compute_status(self):
         for res in self:

@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 from odoo import fields, models, api
 from datetime import datetime
+import pytz
+from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT
 
 class VrGameResult(models.Model):
     _name = "vr.game.result"
@@ -24,9 +26,9 @@ class VrGameResult(models.Model):
     session_id = fields.Char()
     game_session_id = fields.Many2one('vr.game.sessions')
     session_start = fields.Datetime(compute="compute_session_start", store=True, tracking=True)
-    session_start_str = fields.Char()
+    session_start_str = fields.Char(readonly=True)
     session_end = fields.Datetime(compute="compute_session_end", store=True, tracking=True)
-    session_end_str = fields.Char()
+    session_end_str = fields.Char(readonly=True)
     domain = fields.Char()
     replay = fields.Char()
     # violation = fields.Char(string="Challenge")
@@ -56,27 +58,43 @@ class VrGameResult(models.Model):
             except:
                 result.score = 0
 
+    def convert_to_utc(self, date, tz):
+        try:
+            utc = pytz.utc
+            local = pytz.timezone(tz)
+            local_session_start = local.localize(date)
+            utc_date = local_session_start.astimezone(utc)
+            new_utc_date = utc_date.strftime(DEFAULT_SERVER_DATETIME_FORMAT)
+
+            return new_utc_date
+        except:
+            return False
+
     @api.depends('session_start_str')
     def compute_session_start(self):
         for result in self:
             try:
-                result.session_start = datetime.strptime(result.session_start_str, '%Y/%m/%d %H:%M:%S')
+                session_start = datetime.strptime(result.session_start_str, '%Y/%m/%d %H:%M:%S')
+                tz = result.company_id.partner_id.tz
+                if tz:
+                    session_start = self.convert_to_utc(session_start, tz)
+                result.session_start = session_start
             except:
-                try:
-                    result.session_start = datetime.strptime(result.session_start_str, '%Y/%m/%d %H:%M')
-                except:
-                    result.session_start = False
+                result.session_start = False
 
     @api.depends('session_end_str')
     def compute_session_end(self):
         for result in self:
             try:
-                result.session_end = datetime.strptime(result.session_end_str, '%Y/%m/%d %H:%M:%S')
+                session_end = datetime.strptime(result.session_end_str, '%Y/%m/%d %H:%M:%S')
+                tz = result.company_id.partner_id.tz
+
+                if tz:
+                    session_end = self.convert_to_utc(session_end, tz)
+
+                result.session_end = session_end
             except:
-                try:
-                    result.session_end = datetime.strptime(result.session_end_str, '%Y/%m/%d %H:%M')
-                except:
-                    result.session_end = False
+                result.session_end = False
 
     @api.depends('name', 'company_id')
     def get_vr_trainee(self):

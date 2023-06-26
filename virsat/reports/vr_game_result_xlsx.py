@@ -4,6 +4,7 @@ from odoo import models
 
 class VrGameResultXlsx(models.AbstractModel):
     _name = 'report.virsat.vr_game_result_xlsx'
+    _description = 'VR Game Result XLSX'
     _inherit = 'report.report_xlsx.abstract'
 
     def generate_xlsx_report(self, workbook, data, game_result):
