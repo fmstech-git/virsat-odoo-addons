@@ -30,7 +30,7 @@
             <field name="name">vr.game.result.form</field>
             <field name="model">vr.game.result</field>
             <field name="arch" type="xml">
-                <form string="Training Result" create="0" edit="1">
+                <form string="Training Result" create="0" edit="0">
                     <sheet>
                         <group>
                             <group>

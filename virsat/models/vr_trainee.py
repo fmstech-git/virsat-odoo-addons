@@ -88,7 +88,7 @@ class VrTrainee(models.Model):
             'name': 'Training Sessions',
             'type': 'ir.actions.act_window',
             'res_model': 'vr.game.sessions',
-            'view_mode': 'tree',
+            'view_mode': 'tree,form',
             'domain': [('vr_trainee_id', '=', self.id), ('company_id', '=', self.company_id.id)],
         }
 
@@ -109,7 +109,6 @@ class VrTraineeReservedPin(models.Model):
     def create(self, vals):
         res = super(VrTraineeReservedPin, self).create(vals)
         vr_trainee = self.env['vr.trainee'].with_company(res.company_id.id).search([('pin', '=', res.pin)])
-        print(vr_trainee)
 
         if vr_trainee:
             raise ValidationError("Sorry! PIN already assigned to %s under company %s." % (vr_trainee.name, res.company_id.name))
