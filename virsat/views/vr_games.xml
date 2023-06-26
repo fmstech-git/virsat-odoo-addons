@@ -133,7 +133,7 @@
         <field name="name">view.vr.game.sessions.tree</field>
         <field name="model">vr.game.sessions</field>
         <field name="arch" type="xml">
-            <tree string="Game Sessions" create="false" edit="false" decoration-danger="status == 'failed'">
+            <tree string="Game Sessions" create="false" edit="false" decoration-danger="status == 'failed'" expand="1">
                 <field name="name" readonly="1"/>
                 <field name="session_start"/>
                 <field name="session_end"/>
@@ -258,7 +258,7 @@
         <field name="res_model">vr.game.sessions</field>
         <field name="view_mode">tree,form</field>
         <field name="domain">[('company_id', '!=', False)]</field>
-        <field name="context">{'search_default_group_pin': 1}</field>
+        <field name="context">{'search_default_group_pin': 1, 'search_default_group_game': 1}</field>
         <!--<field name="context">{'group_by': ['name','game_id','status'], 'pivot_measures': ['__count'], 'pivot_column_groupby': ['status'], 'pivot_row_groupby': ['name','game_id']}</field>-->
     </record>
 
