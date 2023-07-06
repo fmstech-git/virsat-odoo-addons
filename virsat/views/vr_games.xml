@@ -152,7 +152,7 @@
         <field name="name">view.vr.game.sessions.graph</field>
         <field name="model">vr.game.sessions</field>
         <field name="arch" type="xml">
-            <graph string="Training Results" disable_linking="False" stacked="1">
+            <graph string="Training Results" disable_linking="False" stacked="1" js_class="vr_game_sessions_graph_view">
                 <field name="game_id" type="row"/>
                 <field name="status" type="col"/>
             </graph>

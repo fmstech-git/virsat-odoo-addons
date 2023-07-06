@@ -11,8 +11,15 @@ export class PieChart extends Component {
 
         this.labels = Object.keys(this.props.data);
         this.data = Object.values(this.props.data);
-        this.color = this.labels.map((_, index) => {
+        /*this.color = this.labels.map((_, index) => {
             return getColor(index);
+        });*/
+
+        this.color = this.labels.map((label, index) => {
+            const passed_color = "green"
+            const failed_color = "red"
+
+            return label == "Passed" ? passed_color : failed_color;
         });
 
         onWillStart(() => {
